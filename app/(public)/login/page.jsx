@@ -3,7 +3,7 @@ import LoginModule from "./components";
 
 const LoginPage = () => {
   return (
-    <Container>
+    <Container extraClassName="px-4">
       <LoginModule />
     </Container>
   );

@@ -1,12 +1,12 @@
+import Container from "@/components/shared/Container/Container";
 import React from "react";
+import RegisterModule from "./components";
 
 const RegisterPage = () => {
   return (
-    <div>
-      <h1 className="text-4xl font-bold text-center">
-        Welcome to register page!
-      </h1>
-    </div>
+    <Container extraClassName="px-4">
+      <RegisterModule />
+    </Container>
   );
 };
 
