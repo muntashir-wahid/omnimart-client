@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import { object, string } from "yup";
 
+import APIKit from "@/lib/apiKit";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,6 +15,7 @@ import FormError from "@/components/shared/Form/FormError";
 const registerSchema = object({
   firstName: string().required("First Name is Required"),
   lastName: string().required("Last Name is Required"),
+  phone: string().required("Phone Number is Required"),
   email: string().required("Email is Required").email("Use a valid email"),
   password: string()
     .required("Password is required")
@@ -25,11 +28,25 @@ const RegisterModule = () => {
       firstName: "",
       lastName: "",
       email: "",
+      phone: "",
       password: "",
     },
     validationSchema: registerSchema,
-    onSubmit: (values, actions) => {
-      console.log(values);
+    onSubmit: async (values, action) => {
+      try {
+        const { firstName, lastName, email, password, phone } = values;
+        const { data } = await APIKit.auth.register(
+          firstName,
+          lastName,
+          email,
+          password,
+          phone
+        );
+
+        console.log(data.data.user);
+      } catch (err) {
+        console.log(err);
+      }
     },
   });
   return (
@@ -68,6 +85,17 @@ const RegisterModule = () => {
             onChange={formik.handleChange}
           />
           <FormError formik={formik} name="email" />
+        </div>
+
+        <div className="space-y-1">
+          <Label htmlFor="phone">Your Phone</Label>
+          <Input
+            type="tel"
+            id="phone"
+            placeholder="Your Phone..."
+            onChange={formik.handleChange}
+          />
+          <FormError formik={formik} name="phone" />
         </div>
 
         <div className="space-y-1">

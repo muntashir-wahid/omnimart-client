@@ -37,7 +37,7 @@ const LoginModule = () => {
         <div className="space-y-1">
           <Label htmlFor="email">Your Email</Label>
           <Input
-            type="text"
+            type="email"
             id="email"
             label="Email"
             placeholder="Your Email..."
