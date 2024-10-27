@@ -1,10 +1,11 @@
-import React from "react";
+import Container from "@/components/shared/Container/Container";
+import LoginModule from "./components";
 
 const LoginPage = () => {
   return (
-    <div>
-      <h1 className="text-4xl font-bold text-center">Welcome to login page!</h1>
-    </div>
+    <Container>
+      <LoginModule />
+    </Container>
   );
 };
 
