@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 import { object, string } from "yup";
+
+import APIKit from "@/lib/apiKit";
+import { userRedirectionHandler } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,14 +22,22 @@ const loginSchema = object({
 });
 
 const LoginModule = () => {
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
     validationSchema: loginSchema,
-    onSubmit: (values, actions) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const { email, password } = values;
+
+        const { data } = await APIKit.auth.login(email, password);
+        userRedirectionHandler(data.user.userRole, router);
+      } catch (err) {
+        console.log(err);
+      }
     },
   });
 
