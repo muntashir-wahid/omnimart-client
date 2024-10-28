@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 import { object, string } from "yup";
 
 import APIKit from "@/lib/apiKit";
+import { userRedirectionHandler } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,6 +25,8 @@ const registerSchema = object({
 });
 
 const RegisterModule = () => {
+  const router = useRouter();
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -43,12 +47,13 @@ const RegisterModule = () => {
           phone
         );
 
-        console.log(data.data.user);
+        userRedirectionHandler(data.user.userRole, router);
       } catch (err) {
         console.log(err);
       }
     },
   });
+
   return (
     <section className="max-w-xl mx-auto my-10 border border-gray-300 rounded-xl pt-8 pb-16 px-10">
       <h1 className="text-center text-4xl font-bold mb-16">Please Login</h1>

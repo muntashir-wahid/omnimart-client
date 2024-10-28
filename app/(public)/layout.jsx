@@ -1,12 +1,10 @@
-import PublicFooter from "@/components/global/Footer/PublicFooter";
 import PublicTopNav from "@/components/global/NavMenu/PublicTopNav";
 
 const PublicLayout = ({ children }) => {
   return (
-    <main>
+    <main className="min-h-screen">
       <PublicTopNav />
       {children}
-      <PublicFooter />
     </main>
   );
 };
