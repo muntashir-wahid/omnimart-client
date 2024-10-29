@@ -2,6 +2,8 @@ import { Inter } from "next/font/google";
 
 import "./globals.css";
 
+import GlobalProvider from "@/components/global/Providers/GlobalProvider";
+
 export const metadata = {
   title: "OmniMart",
   description:
@@ -16,7 +18,9 @@ const inter = Inter({
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.className}>
-      <body>{children}</body>
+      <body>
+        <GlobalProvider allChildren={children} />
+      </body>
     </html>
   );
 }
