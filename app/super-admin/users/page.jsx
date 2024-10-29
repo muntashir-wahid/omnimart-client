@@ -8,7 +8,7 @@ const SuperAdminUsersPage = () => {
     <div className="flex flex-col gap-8">
       <header className="flex items-center justify-between">
         <h1 className="text-3xl font-semibold text-gray-800">User List</h1>
-        <Button>
+        <Button asChild>
           <Link href="/super-admin/users/add">Add New User</Link>
         </Button>
       </header>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import {
   Table,
@@ -12,18 +13,17 @@ import {
 
 import APIKit from "@/lib/apiKit";
 
+import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
+
 const SuperAdminUsersModule = () => {
+  const router = useRouter();
   const { data, isLoading } = useQuery({
     queryKey: ["users"],
     queryFn: APIKit.users.getAllUsers,
   });
 
   if (isLoading) {
-    return (
-      <div className="min-h-[72vh] flex items-center justify-center text-center">
-        <p className="text-lg font-medium">Users is Loading...</p>
-      </div>
-    );
+    return <DataLoadingState content="Users is Loading..." />;
   }
 
   const { users } = data.data;
@@ -41,7 +41,12 @@ const SuperAdminUsersModule = () => {
       </TableHeader>
       <TableBody>
         {users.map((user) => (
-          <TableRow key={user.uid}>
+          <TableRow
+            key={user.uid}
+            onClick={() => router.push(`/super-admin/users/${user.uid}`)}
+            className="cursor-pointer"
+            title={`See details of ${user.firstName} ${user.lastName}`}
+          >
             <TableCell>{user.firstName}</TableCell>
             <TableCell>{user.lastName}</TableCell>
             <TableCell>{user.phone}</TableCell>
