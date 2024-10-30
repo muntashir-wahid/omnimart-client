@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 
+import APIKit from "@/lib/apiKit";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,7 +15,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import APIKit from "@/lib/apiKit";
 
 const AddNewAttribute = ({ categoryUid, refetchAttributes }) => {
   const [name, setName] = useState("");
