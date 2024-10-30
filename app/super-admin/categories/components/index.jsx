@@ -16,7 +16,7 @@ import {
 
 import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
 
-const SuperAdminUsersModule = () => {
+const SuperAdminCategoriesModule = () => {
   const router = useRouter();
   const { data, isLoading } = useQuery({
     queryKey: ["users"],
@@ -24,39 +24,30 @@ const SuperAdminUsersModule = () => {
   });
 
   if (isLoading) {
-    return <DataLoadingState content="Users is Loading..." />;
+    return <DataLoadingState content="Categories is Loading..." />;
   }
 
   const { users } = data.data;
-
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>First Name</TableHead>
-          <TableHead>Last Name</TableHead>
-          <TableHead>Phone</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Role</TableHead>
+          <TableHead>Category Name</TableHead>
+          <TableHead>Description</TableHead>
+          <TableHead>Parent Category</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {users.map((user) => (
           <TableRow
             key={user.uid}
-            onClick={() => router.push(`/super-admin/users/${user.uid}`)}
+            onClick={() => router.push(`/super-admin/categories/${user.uid}`)}
             className="cursor-pointer"
             title={`See details of ${user.firstName} ${user.lastName}`}
           >
             <TableCell>{user.firstName}</TableCell>
             <TableCell>{user.lastName}</TableCell>
             <TableCell>{user.phone}</TableCell>
-            <TableCell className="capitalize">
-              {user.userStatus.toLowerCase()}
-            </TableCell>
-            <TableCell className="capitalize">
-              {user.userRole.toLowerCase().split("_").join(" ")}
-            </TableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -64,4 +55,4 @@ const SuperAdminUsersModule = () => {
   );
 };
 
-export default SuperAdminUsersModule;
+export default SuperAdminCategoriesModule;
