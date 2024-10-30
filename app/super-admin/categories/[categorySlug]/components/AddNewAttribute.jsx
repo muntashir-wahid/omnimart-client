@@ -13,14 +13,24 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import APIKit from "@/lib/apiKit";
 
-const AddNewAttribute = () => {
+const AddNewAttribute = ({ categoryUid, refetchAttributes }) => {
   const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
 
-  const handleAttributeAdd = () => {
-    console.log(name);
-    setOpen(false);
+  const handleAttributeAdd = async () => {
+    try {
+      await APIKit.categories.attributes.addCategoryAttribute(categoryUid, {
+        name,
+        productCategoriesUid: categoryUid,
+      });
+      refetchAttributes();
+      setOpen(false);
+      setName("");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

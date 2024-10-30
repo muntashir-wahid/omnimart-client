@@ -1,4 +1,4 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { CollapsibleContent } from "@/components/ui/collapsible";
@@ -12,13 +12,14 @@ const values = {
     { name: "XL", slug: "xl" },
     { name: "XXL", slug: "xxl" },
   ],
+  anything: [],
 };
 
-const AttributeValueList = ({ attributeSlug }) => {
+const AttributeValueList = ({ attributeUid }) => {
   return (
     <CollapsibleContent className="px-8 pb-4">
       <ul className="flex flex-col divide-y-[1px]">
-        {values[attributeSlug].map((item) => (
+        {/* {values[attributeSlug].map((item) => (
           <li
             key={item.slug}
             className="flex justify-between items-center py-4"
@@ -33,8 +34,12 @@ const AttributeValueList = ({ attributeSlug }) => {
               </Button>
             </div>
           </li>
-        ))}
+        ))} */}
       </ul>
+      <Button variant="link" className="self-start px-0 text-gray-600">
+        <Plus />
+        <span>Add New Value</span>
+      </Button>
     </CollapsibleContent>
   );
 };
