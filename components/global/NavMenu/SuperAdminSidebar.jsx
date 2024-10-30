@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import {
   Sidebar,
@@ -13,9 +16,7 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { LayoutDashboard, Users, ShoppingCart, BarChart2 } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const menuItems = [
   {
@@ -34,6 +35,7 @@ const menuItems = [
 
 const SuperAdminSidebar = ({ children }) => {
   const router = useRouter();
+  const pathName = usePathname();
 
   return (
     <SidebarProvider>
@@ -56,7 +58,10 @@ const SuperAdminSidebar = ({ children }) => {
                 <SidebarMenuButton asChild>
                   <Link
                     href={item.href}
-                    className="flex items-center gap-2 font-semibold pl-3"
+                    className={cn(
+                      "flex items-center gap-2 font-semibold pl-3",
+                      pathName.startsWith(item.href) ? "bg-sidebar-accent" : ""
+                    )}
                   >
                     {item.label}
                   </Link>
