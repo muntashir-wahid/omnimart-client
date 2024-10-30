@@ -50,7 +50,9 @@ const SuperAdminUsersModule = () => {
             <TableCell>{user.firstName}</TableCell>
             <TableCell>{user.lastName}</TableCell>
             <TableCell>{user.phone}</TableCell>
-            <TableCell>{user.userStatus}</TableCell>
+            <TableCell className="capitalize">
+              {user.userStatus.toLowerCase()}
+            </TableCell>
             <TableCell className="capitalize">
               {user.userRole.toLowerCase().split("_").join(" ")}
             </TableCell>

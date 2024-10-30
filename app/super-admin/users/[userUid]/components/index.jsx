@@ -61,11 +61,13 @@ const SuperAdminUserDetailsModule = ({ userUid }) => {
         </p>
         <p>
           <span className="font-bold">Status: </span>
-          {userStatus}
+          <span className="capitalize">{userStatus.toLowerCase()}</span>
         </p>
         <p>
           <span className="font-bold">Role: </span>
-          {userRole}
+          <span className="capitalize">
+            {userRole.toLowerCase().split("_").join(" ")}
+          </span>
         </p>
       </article>
       <div className="flex gap-4 self-center">
