@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ArrowLeft } from "lucide-react";
+import SuperAdminCategoryAddModule from "./components";
 
 const SuperAdminCategoryAddPage = () => {
   return (
@@ -13,6 +14,8 @@ const SuperAdminCategoryAddPage = () => {
           Add New Category
         </h1>
       </header>
+
+      <SuperAdminCategoryAddModule />
     </div>
   );
 };
