@@ -4,6 +4,8 @@ import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { object, string } from "yup";
 
+import APIKit from "@/lib/apiKit";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,9 +20,8 @@ import {
 } from "@/components/ui/select";
 
 import FormError from "@/components/shared/Form/FormError";
-import APIKit from "@/lib/apiKit";
 
-const registerSchema = object({
+export const userSchema = object({
   firstName: string().required("First Name is Required"),
   lastName: string().required("Last Name is Required"),
   phone: string().required("Phone Number is Required"),
@@ -30,7 +31,7 @@ const registerSchema = object({
     .min(6, "Password should be more then 6 characters"),
 });
 
-const userRoles = [
+export const userRoles = [
   { label: "User", value: "USER" },
   { label: "Admin", value: "ADMIN" },
   { label: "Super Admin", value: "SUPER_ADMIN" },
@@ -48,13 +49,11 @@ const SuperAdminAddUserModule = () => {
       password: "",
       userRole: "USER",
     },
-    validationSchema: registerSchema,
-    onSubmit: async (values, action) => {
-      console.log(values);
+    validationSchema: userSchema,
+    onSubmit: async (values) => {
       try {
         const { data } = await APIKit.users.addUser(values);
 
-        console.log(data);
         router.push("/super-admin/users");
       } catch (err) {
         console.log(err);

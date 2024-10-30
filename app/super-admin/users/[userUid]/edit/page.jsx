@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+import SuperAdminUserEditModule from "./components";
+
 const SuperAdminUserEditPage = ({ params }) => {
   const { userUid } = params;
 
@@ -12,7 +14,7 @@ const SuperAdminUserEditPage = ({ params }) => {
         </Link>
         <h1 className="text-3xl font-semibold text-gray-800">Edit User Info</h1>
       </header>
-      {/* <SuperAdminUserDetailsModule userUid={userUid} /> */}
+      <SuperAdminUserEditModule userUid={userUid} />
     </div>
   );
 };
