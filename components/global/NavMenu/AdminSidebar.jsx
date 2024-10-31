@@ -21,20 +21,28 @@ import { cn } from "@/lib/utils";
 
 const menuItems = [
   {
-    label: "Users",
-    href: "/super-admin/users",
+    label: "Dashboard",
+    href: "/admin/dashboard",
   },
   {
-    label: "Categories",
-    href: "/super-admin/categories",
+    label: "Inventory",
+    href: "/admin/inventory",
+  },
+  {
+    label: "Customers",
+    href: "/admin/customers",
+  },
+  {
+    label: "Orders",
+    href: "/admin/orders",
   },
   {
     label: "Profile",
-    href: "/super-admin/profile",
+    href: "/admin/profile",
   },
 ];
 
-const SuperAdminSidebar = ({ children }) => {
+const AdminSidebar = ({ children }) => {
   const router = useRouter();
   const pathName = usePathname();
 
@@ -90,7 +98,7 @@ const SuperAdminSidebar = ({ children }) => {
       <div className="flex-1">
         <div className="flex items-center gap-2 p-4 bg-gray-100">
           <SidebarTrigger />
-          <h3 className="text-lg font-bold">Super Admin Panel</h3>
+          <h3 className="text-lg font-bold">Admin Panel</h3>
         </div>
 
         <div className="p-4">{children}</div>
@@ -99,4 +107,4 @@ const SuperAdminSidebar = ({ children }) => {
   );
 };
 
-export default SuperAdminSidebar;
+export default AdminSidebar;

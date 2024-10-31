@@ -1,16 +1,19 @@
 import { NextResponse } from "next/server";
 import { jwtDecode } from "jwt-decode";
+
 import { getToken } from "./actions/cookieActions";
 import { toKababCase } from "./lib/utils";
 
-const redirectFrom = ["/", "/user", "/super-admin"];
+const redirectFrom = ["/", "/user", "/super-admin", "/admin"];
+
 const redirectTo = {
   ["/"]: "/home",
   ["/user"]: "/user/profile",
   ["/super-admin"]: "/super-admin/users",
+  ["/admin"]: "/admin/dashboard",
 };
 
-const privateRoutes = ["/user", "/super-admin"];
+const privateRoutes = ["/user", "/super-admin", "/admin"];
 
 export async function middleware(request) {
   const pathName = request.nextUrl.pathname;
@@ -44,5 +47,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/", "/user/:path*", "/super-admin/:path*"],
+  matcher: ["/", "/user/:path*", "/super-admin/:path*", "/admin/:path*"],
 };
