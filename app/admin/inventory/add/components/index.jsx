@@ -52,11 +52,10 @@ const AdminAddInventoryModule = () => {
       try {
         const { data } = await APIKit.inventory.addInventory(values);
 
-        router.push("/admin/inventory");
+        router.push(`/admin/inventory/${data.inventory.slug}`);
       } catch (err) {
         console.log(err);
       }
-      console.log(values);
     },
   });
 
