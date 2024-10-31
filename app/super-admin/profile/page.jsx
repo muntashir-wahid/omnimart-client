@@ -1,5 +1,7 @@
+import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
+
 const SuperAdminProfilePage = () => {
-  return <div>Welcome to Super admin profile page!</div>;
+  return <DataLoadingState content="Super Admin Profile Coming Soon..." />;
 };
 
 export default SuperAdminProfilePage;

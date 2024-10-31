@@ -7,7 +7,7 @@ const redirectFrom = ["/", "/user", "/super-admin"];
 const redirectTo = {
   ["/"]: "/home",
   ["/user"]: "/user/profile",
-  ["/super-admin"]: "/super-admin/profile",
+  ["/super-admin"]: "/super-admin/users",
 };
 
 const privateRoutes = ["/user", "/super-admin"];

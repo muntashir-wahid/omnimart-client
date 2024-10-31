@@ -1,35 +1,49 @@
-import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+
+import APIKit from "@/lib/apiKit";
 
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
+
 import Container from "@/components/shared/Container/Container";
 
-const navLinks = [
-  {
-    name: "Home",
-    href: "/home",
-  },
-  {
-    name: "Products",
-    href: "/products",
-  },
-  {
-    name: "Categories",
-    href: "/categories",
-  },
-  {
-    name: "Login",
-    href: "/login",
-  },
-  {
-    name: "Resister",
-    href: "/register",
-  },
-];
-
 export default function PublicTopNav() {
+  const [navLinks, setNavLinks] = useState([
+    {
+      name: "Home",
+      href: "/home",
+    },
+  ]);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: APIKit.categories.getAllCategories,
+  });
+
+  useEffect(() => {
+    if (navLinks.length > 5) {
+      return;
+    }
+
+    if (!isLoading) {
+      const categoryToNavLink = data.data.categories.map((category) => ({
+        name: category.name,
+        href: `/categories/${category.slug}`,
+      }));
+
+      setNavLinks((prevLinks) => {
+        const newLinks = [...prevLinks, ...categoryToNavLink];
+        return newLinks;
+      });
+    }
+  }, [isLoading]);
+
   return (
-    <Container extraClassName="flex h-20 w-full shrink-0 items-center px-4">
+    <Container extraClassName="flex h-20 w-full shrink-0 items-center justify-between px-4">
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="lg:hidden">
@@ -60,7 +74,7 @@ export default function PublicTopNav() {
         <MountainIcon className="h-6 w-6" />
         <span className="sr-only">OmniMart</span>
       </Link>
-      <nav className="ml-auto hidden lg:flex gap-6">
+      <nav className="hidden lg:flex gap-6">
         {navLinks.map((navLink) => (
           <Link
             href={navLink.href}
@@ -72,6 +86,11 @@ export default function PublicTopNav() {
           </Link>
         ))}
       </nav>
+      <div>
+        <Button asChild>
+          <Link href="/login">Login</Link>
+        </Button>
+      </div>
     </Container>
   );
 }
