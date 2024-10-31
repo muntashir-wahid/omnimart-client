@@ -19,6 +19,7 @@ import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
 
 const AdminCustomersModule = () => {
   const router = useRouter();
+
   const { data, isLoading } = useQuery({
     queryKey: ["customers"],
     queryFn: APIKit.customers.getAllCustomers,
