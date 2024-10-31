@@ -1,5 +1,4 @@
 const StockItem = ({ stock }) => {
-  console.log(stock);
   return (
     <div className="bg-slate-50 px-10 py-6 rounded-md flex flex-col gap-3">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-lg">

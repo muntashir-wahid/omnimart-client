@@ -2,6 +2,7 @@
 
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { number, object, string } from "yup";
 
 import APIKit from "@/lib/apiKit";
@@ -21,9 +22,8 @@ import {
 
 import FormError from "@/components/shared/Form/FormError";
 import { Textarea } from "@/components/ui/textarea";
-import { useQuery } from "@tanstack/react-query";
 
-export const productSchema = object({
+const productSchema = object({
   name: string().required("Product Name is Required"),
   basePrice: number()
     .required("Base Price is Required")

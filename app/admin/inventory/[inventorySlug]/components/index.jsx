@@ -66,6 +66,7 @@ const AdminInventoryDetailsModule = ({ inventorySlug }) => {
         </div>
       </div>
 
+      {/* Inventory Stock */}
       <InventoryStock product={product} />
     </div>
   );
