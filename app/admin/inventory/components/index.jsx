@@ -44,7 +44,7 @@ const AdminInventoryModule = () => {
         {products.map((product) => (
           <TableRow
             key={product.uid}
-            onClick={() => router.push(`/admin/products/${product.uid}`)}
+            onClick={() => router.push(`/admin/inventory/${product.slug}`)}
             className="cursor-pointer"
             title={`See details of ${product.name}`}
           >

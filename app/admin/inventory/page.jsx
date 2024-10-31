@@ -1,6 +1,8 @@
-import { Button } from "@/components/ui/button";
-import AdminInventoryModule from "./components";
 import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+
+import AdminInventoryModule from "./components";
 
 const AdminInventoryPage = () => {
   return (
