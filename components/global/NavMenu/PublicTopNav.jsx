@@ -25,7 +25,7 @@ export default function PublicTopNav() {
   });
 
   useEffect(() => {
-    if (navLinks.length > 5) {
+    if (navLinks.length > 1) {
       return;
     }
 

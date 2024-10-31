@@ -5,6 +5,8 @@ import { useEffect } from "react";
 
 import { removeAuthTokens } from "@/actions/cookieActions";
 
+import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
+
 const LogoutPage = () => {
   const router = useRouter();
 
@@ -15,7 +17,9 @@ const LogoutPage = () => {
     })();
   }, []);
 
-  return null;
+  return (
+    <DataLoadingState content="Logging Out..." extraClassNames="h-[95vh]" />
+  );
 };
 
 export default LogoutPage;
