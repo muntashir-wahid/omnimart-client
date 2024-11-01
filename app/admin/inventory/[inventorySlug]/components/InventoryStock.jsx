@@ -45,7 +45,13 @@ const InventoryStock = ({ product }) => {
 
         <div className="flex flex-col gap-4">
           {stocks.map((stock) => (
-            <StockItem key={stock.uid} stock={stock} />
+            <StockItem
+              key={stock.uid}
+              stock={stock}
+              productName={name}
+              inventoryUid={uid}
+              refetchStock={refetch}
+            />
           ))}
         </div>
       </div>

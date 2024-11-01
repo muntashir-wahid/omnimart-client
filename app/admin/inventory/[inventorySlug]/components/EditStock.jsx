@@ -1,5 +1,4 @@
 import { useFormik } from "formik";
-import { useQuery } from "@tanstack/react-query";
 import { number, object, string } from "yup";
 
 import APIKit from "@/lib/apiKit";
@@ -16,7 +15,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import FormError from "@/components/shared/Form/FormError";
-import AttributeSelectionsList from "./AttributeSelectionsList";
 
 const stockSchema = object({
   sku: string().required("sku is Required"),
@@ -31,60 +29,45 @@ const stockSchema = object({
     .min(0, "Discount must be more then 0"),
 });
 
-const AddNewStock = ({
-  inventoryUid,
-  basePrice,
-  categoryUid,
-  openStockAddModal,
-  setOpenStockAddModal,
+const EditStock = ({
+  openStockEditModal,
+  setOpenStockEditModal,
+  stock,
   refetchStock,
+  inventoryUid,
 }) => {
-  const { data: attributeList, isLoading: isAttributeListLoading } = useQuery({
-    queryKey: [`categories/${categoryUid}/attributes`],
-    queryFn: () =>
-      APIKit.categories.attributes.getAllCategoryAttributes(categoryUid),
-  });
-
+  const { sku, price, stock: stockCount, discount } = stock;
   const formik = useFormik({
     initialValues: {
-      sku: "",
-      price: basePrice,
-      stock: 0,
-      discount: 0,
-      productAttributeList: {},
+      sku,
+      price,
+      stock: stockCount,
+      discount,
     },
     validationSchema: stockSchema,
     onSubmit: async (values) => {
       try {
-        const newStock = {
-          price: values.price,
-          stock: values.stock,
-          sku: values.sku,
-          discount: values.discount,
-          attributes: Object.values(values.productAttributeList),
-        };
-
-        const { data } = await APIKit.inventory.stock.addInventoryStock(
+        const { data } = await APIKit.inventory.stock.updateInventoryStock(
           inventoryUid,
-          newStock
+          sku,
+          values
         );
 
-        setOpenStockAddModal(false);
+        setOpenStockEditModal(false);
         refetchStock();
       } catch (err) {
         console.log(err);
       } finally {
-        formik.setFieldValue("price", basePrice);
+        formik.setFieldValue("price", 0);
         formik.setFieldValue("stock", 0);
         formik.setFieldValue("sku", "");
         formik.setFieldValue("discount", 0);
-        formik.setFieldValue("productAttributeList", {});
       }
     },
   });
 
   return (
-    <Dialog open={openStockAddModal} onOpenChange={setOpenStockAddModal}>
+    <Dialog open={openStockEditModal} onOpenChange={setOpenStockEditModal}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>Add New Stock</DialogTitle>
@@ -94,13 +77,15 @@ const AddNewStock = ({
             <div className="space-y-1">
               <Label htmlFor="sku">SKU</Label>
               <Input
+                readOnly
+                disabled
                 type="text"
                 id="sku"
                 placeholder="sku-12522dd..."
                 onChange={formik.handleChange}
                 value={formik.values.sku}
               />
-              <FormError formik={formik} name="sku" />
+              <p className="text-sm text-gray-500">You can not edit SKU</p>
             </div>
             <div className="space-y-1">
               <Label htmlFor="price">Price</Label>
@@ -136,17 +121,10 @@ const AddNewStock = ({
               />
               <FormError formik={formik} name="discount" />
             </div>
-
-            {!isAttributeListLoading && (
-              <AttributeSelectionsList
-                attributeList={attributeList.data.attributes}
-                formik={formik}
-              />
-            )}
           </div>
 
           <DialogFooter>
-            <Button type="submit">Add</Button>
+            <Button type="submit">Update</Button>
           </DialogFooter>
         </form>
       </DialogContent>
@@ -154,4 +132,4 @@ const AddNewStock = ({
   );
 };
 
-export default AddNewStock;
+export default EditStock;
