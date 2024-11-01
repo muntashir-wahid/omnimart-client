@@ -1,7 +1,8 @@
-import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
+import CategoryProductsModule from "./components";
 
-const CategoryProductsPage = () => {
-  return <DataLoadingState content="Category Products Coming Soon..." />;
+const CategoryProductsPage = ({ params }) => {
+  const { categorySlug } = params;
+  return <CategoryProductsModule categorySlug={categorySlug} />;
 };
 
 export default CategoryProductsPage;
