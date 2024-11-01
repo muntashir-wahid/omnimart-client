@@ -12,35 +12,12 @@ import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import Container from "@/components/shared/Container/Container";
 
 export default function PublicTopNav() {
-  const [navLinks, setNavLinks] = useState([
-    {
-      name: "Home",
-      href: "/home",
-    },
-  ]);
-
   const { data, isLoading } = useQuery({
     queryKey: ["categories"],
     queryFn: APIKit.categories.getAllCategories,
   });
 
-  useEffect(() => {
-    if (navLinks.length > 1) {
-      return;
-    }
-
-    if (!isLoading) {
-      const categoryToNavLink = data.data.categories.map((category) => ({
-        name: category.name,
-        href: `/categories/${category.slug}`,
-      }));
-
-      setNavLinks((prevLinks) => {
-        const newLinks = [...prevLinks, ...categoryToNavLink];
-        return newLinks;
-      });
-    }
-  }, [isLoading]);
+  console.log(data?.data.categories);
 
   return (
     <Container extraClassName="flex h-20 w-full shrink-0 items-center justify-between px-4">
@@ -57,10 +34,17 @@ export default function PublicTopNav() {
             <span className="sr-only">OmniMart</span>
           </Link>
           <nav className="grid gap-2 py-6">
-            {navLinks.map((navLink) => (
+            <Link
+              href="/home"
+              className="flex w-full items-center py-2 text-lg font-semibold"
+              prefetch={false}
+            >
+              Home
+            </Link>
+            {data?.data.categories?.map((navLink) => (
               <Link
-                key={navLink.name}
-                href={navLink.href}
+                key={navLink.slug}
+                href={navLink.slug}
                 className="flex w-full items-center py-2 text-lg font-semibold"
                 prefetch={false}
               >
@@ -75,10 +59,18 @@ export default function PublicTopNav() {
         <span className="sr-only">OmniMart</span>
       </Link>
       <nav className="hidden lg:flex gap-6">
-        {navLinks.map((navLink) => (
+        <Link
+          href={"/home"}
+          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
+          prefetch={false}
+        >
+          Home
+        </Link>
+
+        {data?.data.categories?.map((navLink) => (
           <Link
-            href={navLink.href}
-            key={navLink.name}
+            href={navLink.slug}
+            key={navLink.slug}
             className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
             prefetch={false}
           >
