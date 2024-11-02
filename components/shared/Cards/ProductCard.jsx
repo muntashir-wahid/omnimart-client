@@ -32,7 +32,7 @@ const ProductCard = ({
 
         <p className="font-bold text-gray-900">${basePrice}</p>
 
-        <p className="text-sm text-gray-700 font-semibold">{about}</p>
+        <p className="text-sm text-gray-700 font-semibold truncate">{about}</p>
 
         <Button className="self-end" asChild>
           <Link href={`/products/${slug}`}>

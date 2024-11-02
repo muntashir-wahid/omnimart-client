@@ -99,7 +99,8 @@ const ProductDetailsModule = ({ productSlug }) => {
           </div>
 
           <p className="font-medium text-gray-600">Description: {about}</p>
-          <Button>
+
+          <Button className="self-start">
             <ShoppingCart />
             <span>Add to Cart</span>
           </Button>

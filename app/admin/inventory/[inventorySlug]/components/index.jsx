@@ -59,7 +59,7 @@ const AdminInventoryDetailsModule = ({ inventorySlug }) => {
             <span className="font-medium">Updated At:</span>{" "}
             {format(product.updatedAt, "PP")}
           </p>
-          <p>
+          <p className="col-span-2">
             <span className="font-medium">Short Description:</span>{" "}
             {product.about}
           </p>

@@ -88,7 +88,7 @@ const AdminAddInventoryModule = () => {
 
         {/* Category Selection Dropdown */}
         <div className="space-y-1">
-          <Label htmlFor="email">User Role</Label>
+          <Label htmlFor="email">Category</Label>
           <Select
             value={formik.values.categoryUid}
             onValueChange={(selectedCategory) => {
