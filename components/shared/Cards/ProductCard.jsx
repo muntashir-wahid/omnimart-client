@@ -26,7 +26,7 @@ const ProductCard = ({
       </figure>
       <div className="px-4 pb-6 flex flex-col gap-2">
         <div>
-          <h3 className="text-lg font-bold text-gray-700">{name}</h3>
+          <h3 className="text-lg font-bold text-gray-700 truncate">{name}</h3>
           <p className="text-sm text-gray-500">{categoryName}</p>
         </div>
 

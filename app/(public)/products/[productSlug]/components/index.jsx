@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { ShoppingCart } from "lucide-react";
 
@@ -14,9 +14,11 @@ import { Button } from "@/components/ui/button";
 import Container from "@/components/shared/Container/Container";
 import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
 import RelatedProducts from "./RelatedProducts";
+import { getToken } from "@/actions/cookieActions";
 
 const ProductDetailsModule = ({ productSlug }) => {
   const searchParams = useSearchParams().get("sku");
+  const router = useRouter();
 
   const { data, isLoading } = useQuery({
     queryKey: [`products/${productSlug}${searchParams ? searchParams : ""}`],
@@ -38,6 +40,19 @@ const ProductDetailsModule = ({ productSlug }) => {
       attributes,
     },
   } = data.data;
+
+  const handleAddProductToCart = async () => {
+    const token = await getToken();
+
+    if (!token) {
+      router.push("/login");
+      return;
+    }
+
+    const cart = await APIKit.cart.addProductToCart({
+      productUid: uid,
+    });
+  };
 
   return (
     <Container extraClassName="p-4 flex flex-col gap-16">
@@ -100,7 +115,7 @@ const ProductDetailsModule = ({ productSlug }) => {
 
           <p className="font-medium text-gray-600">Description: {about}</p>
 
-          <Button className="self-start">
+          <Button className="self-start" onClick={handleAddProductToCart}>
             <ShoppingCart />
             <span>Add to Cart</span>
           </Button>

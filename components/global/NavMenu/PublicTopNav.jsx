@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 
 import Container from "@/components/shared/Container/Container";
+import { getToken } from "@/actions/cookieActions";
+import { ShoppingCart } from "lucide-react";
 
 export default function PublicTopNav() {
   const { data } = useQuery({
@@ -75,7 +77,13 @@ export default function PublicTopNav() {
           </Link>
         ))}
       </nav>
-      <div>
+      <div className="flex items-center gap-5">
+        <Link href="/user/cart" className="relative">
+          <span className="absolute top-0 left-0 w-6 h-6 bg-red-600 text-white text-center rounded-full transform -translate-y-4 translate-x-4">
+            2
+          </span>
+          <ShoppingCart width={30} />
+        </Link>
         <Button asChild>
           <Link href="/login">Login</Link>
         </Button>

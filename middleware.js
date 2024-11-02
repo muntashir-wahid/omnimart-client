@@ -13,7 +13,7 @@ const redirectTo = {
   ["/admin"]: "/admin/dashboard",
 };
 
-const privateRoutes = ["/user", "/super-admin", "/admin"];
+const privateRoutes = ["/user", "/super-admin", "/admin", "/cart"];
 
 export async function middleware(request) {
   const pathName = request.nextUrl.pathname;
@@ -47,5 +47,11 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/", "/user/:path*", "/super-admin/:path*", "/admin/:path*"],
+  matcher: [
+    "/",
+    "/user/:path*",
+    "/super-admin/:path*",
+    "/admin/:path*",
+    "/cart",
+  ],
 };
