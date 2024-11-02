@@ -1,22 +1,20 @@
+import Link from "next/link";
 import Image from "next/image";
+import { Eye } from "lucide-react";
+
+import { calcDiscountPrice, cn } from "@/lib/utils";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { Eye } from "lucide-react";
-import { calcDiscountPrice, cn } from "@/lib/utils";
 
 const RelatedProductCard = ({ product }) => {
   const {
-    uid,
     price,
     discount,
     sku,
     baseProduct: { name, slug },
     ProductConfigs,
   } = product;
-
-  console.log(ProductConfigs);
 
   return (
     <article className="flex flex-col gap-6 rounded-md shadow-md">
@@ -69,7 +67,7 @@ const RelatedProductCard = ({ product }) => {
         </div>
 
         <Button className="self-end" asChild>
-          <Link href={`/products/${slug}?item=${uid}`}>
+          <Link href={`/products/${slug}?sku=${sku}`}>
             <Eye />
             <span>View Details</span>
           </Link>

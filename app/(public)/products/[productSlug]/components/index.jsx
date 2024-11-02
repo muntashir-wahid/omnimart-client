@@ -1,21 +1,27 @@
 "use client";
 
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { ShoppingCart } from "lucide-react";
 
 import APIKit from "@/lib/apiKit";
 import { calcDiscountPrice, cn } from "@/lib/utils";
 
 import { Badge } from "@/components/ui/badge";
-import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
+import { Button } from "@/components/ui/button";
 
 import Container from "@/components/shared/Container/Container";
+import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
 import RelatedProducts from "./RelatedProducts";
 
 const ProductDetailsModule = ({ productSlug }) => {
+  const searchParams = useSearchParams().get("sku");
+
   const { data, isLoading } = useQuery({
-    queryKey: [`products/${productSlug}`],
-    queryFn: () => APIKit.products.getProductDetails(productSlug),
+    queryKey: [`products/${productSlug}${searchParams ? searchParams : ""}`],
+    queryFn: () =>
+      APIKit.products.getProductDetails(productSlug, { sku: searchParams }),
   });
 
   if (isLoading) {
@@ -93,11 +99,15 @@ const ProductDetailsModule = ({ productSlug }) => {
           </div>
 
           <p className="font-medium text-gray-600">Description: {about}</p>
+          <Button>
+            <ShoppingCart />
+            <span>Add to Cart</span>
+          </Button>
         </div>
       </div>
 
       <div>
-        <h4 className="text-xl font-bold text-gray-700 mb-8">
+        <h4 className="text-2xl font-bold text-gray-700 mb-8">
           Related Products
         </h4>
         <RelatedProducts currentItemUid={uid} productSlug={slug} />
