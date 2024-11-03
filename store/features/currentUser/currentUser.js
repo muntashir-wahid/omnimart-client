@@ -1,6 +1,6 @@
-import APIKit from "@/lib/apiKit";
-import httpClient from "@/lib/httpClient";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+import APIKit from "@/lib/apiKit";
 
 const initialState = {
   user: null,
@@ -8,7 +8,7 @@ const initialState = {
 
 export const fetchCurrentUser = createAsyncThunk(
   "fetch/currentUser",
-  async (thunkAPI) => {
+  async () => {
     const data = await APIKit.users.getMe();
 
     return data.data.user;

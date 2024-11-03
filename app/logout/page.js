@@ -5,9 +5,10 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
 import { removeAuthTokens } from "@/actions/cookieActions";
+import { removeUser } from "@/store/features/currentUser/currentUser";
+import { removeCart } from "@/store/features/cart/cartSlice";
 
 import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
-import { removeUser } from "@/store/features/currentUser/currentUser";
 
 const LogoutPage = () => {
   const router = useRouter();
@@ -18,6 +19,7 @@ const LogoutPage = () => {
       removeAuthTokens();
       router.push("/");
       dispatch(removeUser());
+      dispatch(removeCart());
     })();
   }, []);
 

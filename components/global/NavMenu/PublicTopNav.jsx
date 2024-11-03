@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ShoppingCart } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import APIKit from "@/lib/apiKit";
+import { fetchCart } from "@/store/features/cart/cartSlice";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
@@ -23,12 +25,25 @@ const dropdownMenuItems = {
 };
 
 export default function PublicTopNav() {
+  const dispatch = useDispatch();
+
   const { data } = useQuery({
     queryKey: ["categories"],
     queryFn: APIKit.categories.getAllCategories,
   });
 
   const user = useSelector((state) => state.currentUser.user);
+
+  useEffect(() => {
+    if (user) {
+      console.log("fetch cart");
+
+      dispatch(fetchCart());
+    }
+  }, [user]);
+
+  const cart = useSelector((state) => state.cart.cart);
+  console.log(cart);
 
   return (
     <Container extraClassName="flex h-20 w-full shrink-0 items-center justify-between px-4">
@@ -94,14 +109,7 @@ export default function PublicTopNav() {
           <>
             <Link href="/user/cart" className="relative">
               <span className="absolute top-0 left-0 w-6 h-6 bg-red-600 text-center font-semibold text-white rounded-full transform -translate-y-4 translate-x-4">
-                {/* {isCartLoading ? (
-              <span>...</span>
-            ) : (
-              <span>
-                {cart.data.cart ? cart.data.cart.CartItems.length : 0}
-              </span>
-            )} */}
-                2
+                <span>{cart.CartItems ? cart.CartItems.length : 0}</span>
               </span>
               <ShoppingCart width={30} />
             </Link>
