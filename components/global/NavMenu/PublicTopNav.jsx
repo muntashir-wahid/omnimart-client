@@ -10,8 +10,17 @@ import APIKit from "@/lib/apiKit";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 
-import Container from "@/components/shared/Container/Container";
 import AvatarDropdown from "./AvatarDropdown";
+import Container from "@/components/shared/Container/Container";
+
+const dropdownMenuItems = {
+  USER: [
+    { label: "My Profile", href: "/user/profile" },
+    { label: "My Orders", href: "/user/profile" },
+  ],
+  ADMIN: [{ label: "Admin", href: "/admin" }],
+  ["SUPER_ADMIN"]: [{ label: "Super Admin", href: "/super_admin" }],
+};
 
 export default function PublicTopNav() {
   const { data } = useQuery({
@@ -97,7 +106,7 @@ export default function PublicTopNav() {
               <ShoppingCart width={30} />
             </Link>
 
-            <AvatarDropdown />
+            <AvatarDropdown menuItems={dropdownMenuItems[user.userRole]} />
           </>
         ) : (
           <Button asChild>

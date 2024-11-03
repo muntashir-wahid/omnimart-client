@@ -1,5 +1,12 @@
+import PublicTopNav from "@/components/global/NavMenu/PublicTopNav";
+
 const UserLayout = ({ children }) => {
-  return <div>{children}</div>;
+  return (
+    <main className="min-h-screen">
+      <PublicTopNav />
+      {children}
+    </main>
+  );
 };
 
 export default UserLayout;

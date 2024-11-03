@@ -1,12 +1,14 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
-const AvatarDropdown = () => {
+const AvatarDropdown = ({ menuItems }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -16,10 +18,14 @@ const AvatarDropdown = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuItem>GitHub</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
-        <DropdownMenuItem>API</DropdownMenuItem>
-        <DropdownMenuItem>Log out</DropdownMenuItem>
+        {menuItems?.map((item) => (
+          <DropdownMenuItem key={item.label} asChild>
+            <Link href={item.href}>{item.label}</Link>
+          </DropdownMenuItem>
+        ))}
+        <DropdownMenuItem asChild>
+          <Link href="/logout">Logout</Link>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
