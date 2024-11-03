@@ -29,6 +29,10 @@ export const counterSlice = createSlice({
     builder.addCase(fetchCart.fulfilled, (state, action) => {
       state.cart = action.payload;
     });
+
+    builder.addCase(mutateCart.fulfilled, (state, action) => {
+      state.cart.CartItems.push({ uid: 1 });
+    });
   },
 });
 

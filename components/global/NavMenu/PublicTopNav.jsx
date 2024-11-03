@@ -36,14 +36,11 @@ export default function PublicTopNav() {
 
   useEffect(() => {
     if (user) {
-      console.log("fetch cart");
-
       dispatch(fetchCart());
     }
   }, [user]);
 
   const cart = useSelector((state) => state.cart.cart);
-  console.log(cart);
 
   return (
     <Container extraClassName="flex h-20 w-full shrink-0 items-center justify-between px-4">
@@ -109,7 +106,7 @@ export default function PublicTopNav() {
           <>
             <Link href="/user/cart" className="relative">
               <span className="absolute top-0 left-0 w-6 h-6 bg-red-600 text-center font-semibold text-white rounded-full transform -translate-y-4 translate-x-4">
-                <span>{cart.CartItems ? cart.CartItems.length : 0}</span>
+                <span>{cart?.CartItems ? cart.CartItems.length : 0}</span>
               </span>
               <ShoppingCart width={30} />
             </Link>

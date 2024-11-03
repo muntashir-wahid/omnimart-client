@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { ShoppingCart } from "lucide-react";
 
 import APIKit from "@/lib/apiKit";
 import { calcDiscountPrice, cn } from "@/lib/utils";
-import { getToken } from "@/actions/cookieActions";
+import { mutateCart } from "@/store/features/cart/cartSlice";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,8 @@ import RelatedProducts from "./RelatedProducts";
 const ProductDetailsModule = ({ productSlug }) => {
   const searchParams = useSearchParams().get("sku");
   const router = useRouter();
-  const queryClient = useQueryClient();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.currentUser.user);
 
   const { data, isLoading } = useQuery({
     queryKey: [`products/${productSlug}${searchParams ? searchParams : ""}`],
@@ -43,20 +45,11 @@ const ProductDetailsModule = ({ productSlug }) => {
   } = data.data;
 
   const handleAddProductToCart = async () => {
-    const token = await getToken();
-
-    if (!token) {
-      router.push("/login");
-      return;
+    if (!user) {
+      return router.push("/login");
     }
 
-    await APIKit.cart.addProductToCart({
-      productUid: uid,
-    });
-
-    queryClient.refetchQueries({
-      queryKey: ["cart"],
-    });
+    dispatch(mutateCart({ productUid: uid }));
   };
 
   return (
