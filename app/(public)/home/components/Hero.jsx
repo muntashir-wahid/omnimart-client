@@ -9,24 +9,14 @@ import {
 
 const Hero = () => {
   return (
-    <Carousel className="w-full max-w-xs">
-      <CarouselPrevious />
-      <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index}>
-            <div className="p-1">
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6">
-                  <span className="text-4xl font-semibold">{index + 1}</span>
-                </CardContent>
-              </Card>
-            </div>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-
-      <CarouselNext />
-    </Carousel>
+    <div
+      style={{
+        backgroundImage: `url(${"https://plus.unsplash.com/premium_photo-1677995700941-100976883af7?q=80&w=1523"})`,
+        backgroundPosition: "center center",
+        backgroundSize: "cover",
+      }}
+      className="h-[80vh] w-full"
+    ></div>
   );
 };
 
