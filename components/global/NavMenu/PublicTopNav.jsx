@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { ShoppingCart } from "lucide-react";
+import { useSelector } from "react-redux";
 
 import APIKit from "@/lib/apiKit";
 
@@ -10,12 +11,15 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 
 import Container from "@/components/shared/Container/Container";
+import AvatarDropdown from "./AvatarDropdown";
 
 export default function PublicTopNav() {
   const { data } = useQuery({
     queryKey: ["categories"],
     queryFn: APIKit.categories.getAllCategories,
   });
+
+  const user = useSelector((state) => state.currentUser.user);
 
   return (
     <Container extraClassName="flex h-20 w-full shrink-0 items-center justify-between px-4">
@@ -77,22 +81,29 @@ export default function PublicTopNav() {
         ))}
       </nav>
       <div className="flex items-center gap-5">
-        <Link href="/user/cart" className="relative">
-          <span className="absolute top-0 left-0 w-6 h-6 bg-red-600 text-center font-semibold text-white rounded-full transform -translate-y-4 translate-x-4">
-            {/* {isCartLoading ? (
+        {user ? (
+          <>
+            <Link href="/user/cart" className="relative">
+              <span className="absolute top-0 left-0 w-6 h-6 bg-red-600 text-center font-semibold text-white rounded-full transform -translate-y-4 translate-x-4">
+                {/* {isCartLoading ? (
               <span>...</span>
             ) : (
               <span>
                 {cart.data.cart ? cart.data.cart.CartItems.length : 0}
               </span>
             )} */}
-            2
-          </span>
-          <ShoppingCart width={30} />
-        </Link>
-        <Button asChild>
-          <Link href="/login">Login</Link>
-        </Button>
+                2
+              </span>
+              <ShoppingCart width={30} />
+            </Link>
+
+            <AvatarDropdown />
+          </>
+        ) : (
+          <Button asChild>
+            <Link href="/login">Login</Link>
+          </Button>
+        )}
       </div>
     </Container>
   );
