@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 import { object, string } from "yup";
 
 import APIKit from "@/lib/apiKit";
@@ -13,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import FormError from "@/components/shared/Form/FormError";
+import { setCurrentUser } from "@/store/features/currentUser/currentUser";
 
 const loginSchema = object({
   email: string().required("Email is Required").email("Use a valid email"),
@@ -23,6 +25,8 @@ const loginSchema = object({
 
 const LoginModule = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -34,6 +38,8 @@ const LoginModule = () => {
         const { email, password } = values;
 
         const { data } = await APIKit.auth.login(email, password);
+
+        dispatch(setCurrentUser(data.user));
         userRedirectionHandler(data.user.userRole, router);
       } catch (err) {
         console.log(err);
