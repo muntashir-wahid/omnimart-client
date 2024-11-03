@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ShoppingCart } from "lucide-react";
 
 import APIKit from "@/lib/apiKit";
 import { calcDiscountPrice, cn } from "@/lib/utils";
+import { getToken } from "@/actions/cookieActions";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -14,11 +15,11 @@ import { Button } from "@/components/ui/button";
 import Container from "@/components/shared/Container/Container";
 import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
 import RelatedProducts from "./RelatedProducts";
-import { getToken } from "@/actions/cookieActions";
 
 const ProductDetailsModule = ({ productSlug }) => {
   const searchParams = useSearchParams().get("sku");
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery({
     queryKey: [`products/${productSlug}${searchParams ? searchParams : ""}`],
@@ -49,8 +50,12 @@ const ProductDetailsModule = ({ productSlug }) => {
       return;
     }
 
-    const cart = await APIKit.cart.addProductToCart({
+    await APIKit.cart.addProductToCart({
       productUid: uid,
+    });
+
+    queryClient.refetchQueries({
+      queryKey: ["cart"],
     });
   };
 

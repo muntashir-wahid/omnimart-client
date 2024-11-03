@@ -2,20 +2,25 @@
 
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
+import { ShoppingCart } from "lucide-react";
 
 import APIKit from "@/lib/apiKit";
+import { getToken } from "@/actions/cookieActions";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 
 import Container from "@/components/shared/Container/Container";
-import { getToken } from "@/actions/cookieActions";
-import { ShoppingCart } from "lucide-react";
 
 export default function PublicTopNav() {
   const { data } = useQuery({
     queryKey: ["categories"],
     queryFn: APIKit.categories.getAllCategories,
+  });
+
+  const { data: cart, isLoading: isCartLoading } = useQuery({
+    queryKey: ["cart"],
+    queryFn: APIKit.cart.getCart,
   });
 
   return (
@@ -79,8 +84,14 @@ export default function PublicTopNav() {
       </nav>
       <div className="flex items-center gap-5">
         <Link href="/user/cart" className="relative">
-          <span className="absolute top-0 left-0 w-6 h-6 bg-red-600 text-white text-center rounded-full transform -translate-y-4 translate-x-4">
-            2
+          <span className="absolute top-0 left-0 w-6 h-6 bg-red-600 text-center font-semibold text-white rounded-full transform -translate-y-4 translate-x-4">
+            {isCartLoading ? (
+              <span>...</span>
+            ) : (
+              <span>
+                {cart.data.cart ? cart.data.cart.CartItems.length : 0}
+              </span>
+            )}
           </span>
           <ShoppingCart width={30} />
         </Link>
