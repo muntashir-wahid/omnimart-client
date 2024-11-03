@@ -8,6 +8,8 @@ import CartItem from "./CartItem";
 import CartSummary from "./CartSummary";
 import Container from "@/components/shared/Container/Container";
 import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const CartModule = () => {
   const { data, isLoading, refetch } = useQuery({
@@ -21,20 +23,26 @@ const CartModule = () => {
 
   const { cart } = data.data;
 
+  if (!cart || cart.CartItems.length === 0) {
+    return (
+      <Container extraClassName="px-4 py-6">
+        <h1 className="text-4xl font-bold">Your Shopping Bag</h1>
+        <div className="mt-20 text-center">
+          <p className="text-xl font-semibold text-gray-700">
+            Your Shopping bag is empty.
+          </p>
+          <Button className="mt-6" asChild>
+            <Link href="/">Shop Now</Link>
+          </Button>
+        </div>
+      </Container>
+    );
+  }
+
   return (
     <Container extraClassName="px-4 py-6 flex flex-col lg:flex-row gap-8">
       <div className="w-full lg:w-[70%]">
         <h1 className="text-4xl font-bold">Your Shopping Bag</h1>
-
-        <div>
-          {!cart ? (
-            <div className="mt-20 text-center">
-              <p className="text-xl font-semibold text-gray-700">
-                Your Shopping bag is empty.
-              </p>
-            </div>
-          ) : null}
-        </div>
 
         <div className="flex flex-col gap-4 mt-10">
           {cart.CartItems.map((cartProduct) => (
