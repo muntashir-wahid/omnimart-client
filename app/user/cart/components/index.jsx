@@ -25,7 +25,7 @@ const CartModule = () => {
 
   if (!cart || cart.CartItems.length === 0) {
     return (
-      <Container extraClassName="px-4 py-6">
+      <div>
         <h1 className="text-4xl font-bold">Your Shopping Bag</h1>
         <div className="mt-20 text-center">
           <p className="text-xl font-semibold text-gray-700">
@@ -35,7 +35,7 @@ const CartModule = () => {
             <Link href="/">Shop Now</Link>
           </Button>
         </div>
-      </Container>
+      </div>
     );
   }
 

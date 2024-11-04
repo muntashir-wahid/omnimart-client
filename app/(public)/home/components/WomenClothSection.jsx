@@ -9,7 +9,7 @@ import ProductCard from "@/components/shared/Cards/ProductCard";
 
 const WomenClothSection = () => {
   const { data, isLoading } = useQuery({
-    queryKey: ["products"],
+    queryKey: ["products-women-clothing"],
     queryFn: () =>
       APIKit.products.getAllProducts({ category: "women-clothing" }),
   });
@@ -27,7 +27,7 @@ const WomenClothSection = () => {
 
   return (
     <div>
-      <h3 className="text-xl text-gray-800 font-semibold mb-6">
+      <h3 className="text-xl text-gray-800 font-semibold mb-4">
         Women Clothes
       </h3>
 

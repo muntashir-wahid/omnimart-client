@@ -9,7 +9,7 @@ import ProductCard from "@/components/shared/Cards/ProductCard";
 
 const SmartphoneSection = () => {
   const { data, isLoading } = useQuery({
-    queryKey: ["products"],
+    queryKey: ["products-smartphone"],
     queryFn: () => APIKit.products.getAllProducts({ category: "smartphone" }),
   });
 
@@ -26,7 +26,7 @@ const SmartphoneSection = () => {
 
   return (
     <div>
-      <h3 className="text-xl text-gray-800 font-semibold mb-6">Smartphones</h3>
+      <h3 className="text-xl text-gray-800 font-semibold mb-4">Smartphones</h3>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {products.map((product) => (
