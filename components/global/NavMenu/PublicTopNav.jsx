@@ -35,7 +35,7 @@ export default function PublicTopNav() {
   const user = useSelector((state) => state.currentUser.user);
 
   useEffect(() => {
-    if (user) {
+    if (user && user.userRole === "USER") {
       dispatch(fetchCart());
     }
   }, [user]);
@@ -102,7 +102,7 @@ export default function PublicTopNav() {
         ))}
       </nav>
       <div className="flex items-center gap-5">
-        {user ? (
+        {user && user.userRole === "USER" ? (
           <>
             <Link href="/user/cart" className="relative">
               <span className="absolute top-0 left-0 w-6 h-6 bg-red-600 text-center font-semibold text-white rounded-full transform -translate-y-4 translate-x-4">
