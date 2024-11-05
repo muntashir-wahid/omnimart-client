@@ -19,6 +19,7 @@ import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
 
 const UserOrdersModule = () => {
   const router = useRouter();
+
   const { data, isLoading } = useQuery({
     queryKey: ["orders"],
     queryFn: APIKit.orders.getAllOrders,

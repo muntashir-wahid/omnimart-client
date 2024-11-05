@@ -45,7 +45,7 @@ const AdminOrdersModule = () => {
         {orders.map((order) => (
           <TableRow
             key={order.uid}
-            onClick={() => router.push(`/user/orders/${order.uid}`)}
+            onClick={() => router.push(`/admin/orders/${order.uid}`)}
             className="cursor-pointer"
             title={`See details of ${order.uid}`}
           >

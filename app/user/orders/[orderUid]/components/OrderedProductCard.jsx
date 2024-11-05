@@ -1,9 +1,17 @@
+import { Badge } from "@/components/ui/badge";
+import { calcDiscountPrice } from "@/lib/utils";
 import Image from "next/image";
 
-import { Badge } from "@/components/ui/badge";
-
-const ShoppingBagItem = ({
-  cartProduct: { productName, quantity, discountPrice, ProductConfigs },
+const OrderedProductCard = ({
+  orderedProduct: {
+    discount,
+    price,
+    qunatity,
+    product: {
+      ProductConfigs,
+      baseProduct: { name: productName },
+    },
+  },
 }) => {
   return (
     <div className="flex flex-col md:flex-row md:justify-between gap-2 bg-gray-100 px-4 py-6 shadow rounded-md">
@@ -18,7 +26,9 @@ const ShoppingBagItem = ({
           />
         </figure>
         <div className="py-2">
-          <h5 className="text-lg font-medium text-gray-600">{productName}</h5>
+          <h5 className="text-lg font-medium text-gray-600 mb-2">
+            {productName}
+          </h5>
 
           <div className="flex flex-wrap gap-2">
             {ProductConfigs.map((attribute) => (
@@ -37,15 +47,15 @@ const ShoppingBagItem = ({
 
       <div className="font-semibold text-lg text-gray-600">
         <p className="hidden md:block">
-          ${discountPrice} x {quantity}
+          ${calcDiscountPrice(price, discount)} x {qunatity}
         </p>
 
         <p className="block md:hidden">
-          Price: ${discountPrice} x {quantity}
+          Price: ${calcDiscountPrice(price, discount)} x {qunatity}
         </p>
       </div>
     </div>
   );
 };
 
-export default ShoppingBagItem;
+export default OrderedProductCard;
