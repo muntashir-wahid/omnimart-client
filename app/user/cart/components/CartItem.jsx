@@ -6,31 +6,32 @@ import { calcDiscountPrice } from "@/lib/utils";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useDispatch } from "react-redux";
+import { mutateCartQuantity } from "@/store/features/cart/cartSlice";
 
 const CartItem = ({
   cartProduct: {
+    cartItemUid,
+    productUid,
+    productName,
     quantity,
-    product: {
-      uid,
-      discount,
-      price,
-      baseProduct: { name },
-      ProductConfigs,
-    },
+    discountPrice,
+    ProductConfigs,
   },
-  refetchCart,
 }) => {
+  const dispatch = useDispatch();
+
   const handleCartIncrement = async () => {
-    await APIKit.cart.addProductToCart({ productUid: uid });
-    refetchCart();
+    dispatch(mutateCartQuantity({ productUid }));
   };
 
   const handleCartDecrement = async () => {
-    await APIKit.cart.addProductToCart({
-      productUid: uid,
-      decrement: true,
-    });
-    refetchCart();
+    dispatch(
+      mutateCartQuantity({
+        productUid,
+        decrement: true,
+      })
+    );
   };
 
   return (
@@ -41,12 +42,12 @@ const CartItem = ({
             src="https://images.unsplash.com/photo-1509695507497-903c140c43b0?q=80&w=700"
             height={300}
             width={300}
-            // alt="Cart Product Image"
+            alt="Cart Product Image"
             className="w-full max-w-[100px] min-h-[80px] rounded-xl"
           />
         </figure>
         <div className="py-2">
-          <h5 className="text-lg font-medium text-gray-600">{name}</h5>
+          <h5 className="text-lg font-medium text-gray-600">{productName}</h5>
 
           <div className="flex flex-wrap gap-2">
             {ProductConfigs.map((attribute) => (
@@ -65,11 +66,11 @@ const CartItem = ({
 
       <div className="w-full md:w-1/4 md:self-center font-semibold text-lg text-gray-600">
         <p className="hidden md:block">
-          ${calcDiscountPrice(price, discount)} x {quantity}
+          ${discountPrice} x {quantity}
         </p>
 
         <p className="block md:hidden">
-          Price: ${calcDiscountPrice(price, discount)} x {quantity}
+          Price: ${discountPrice} x {quantity}
         </p>
       </div>
 

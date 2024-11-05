@@ -5,25 +5,14 @@ import { calcDiscountPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 const CartSummary = ({ cart }) => {
-  const priceWithoutDiscount = cart.reduce((accu, item) => {
-    const {
-      quantity,
-      product: { price },
-    } = item;
-
-    const result = accu + calcDiscountPrice(price, 0) * quantity;
-    return result;
-  }, 0);
-
-  const priceWithDiscount = cart.reduce((accu, item) => {
-    const {
-      quantity,
-      product: { price, discount },
-    } = item;
-
-    const result = accu + calcDiscountPrice(price, discount) * quantity;
-    return result;
-  }, 0);
+  const priceWithoutDiscount = cart.reduce(
+    (accu, item) => accu + item.price * item.quantity,
+    0
+  );
+  const priceWithDiscount = cart.reduce(
+    (accu, item) => accu + item.discountPrice * item.quantity,
+    0
+  );
 
   return (
     <div className="flex flex-col gap-4 text-lg font-medium">

@@ -4,11 +4,11 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { ShoppingCart } from "lucide-react";
+import { CircleCheck, ShoppingCart } from "lucide-react";
 
 import APIKit from "@/lib/apiKit";
 import { calcDiscountPrice, cn } from "@/lib/utils";
-import { mutateCart } from "@/store/features/cart/cartSlice";
+import { addProductToCart } from "@/store/features/cart/cartSlice";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ const ProductDetailsModule = ({ productSlug }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.currentUser.user);
+  const cart = useSelector((state) => state.cart.cart);
 
   const { data, isLoading } = useQuery({
     queryKey: [`products/${productSlug}${searchParams ? searchParams : ""}`],
@@ -49,8 +50,10 @@ const ProductDetailsModule = ({ productSlug }) => {
       return router.push("/login");
     }
 
-    dispatch(mutateCart({ productUid: uid }));
+    dispatch(addProductToCart({ productUid: uid }));
   };
+
+  const isAlreadyAdded = cart?.find((item) => item.productUid === uid);
 
   return (
     <Container extraClassName="p-4 flex flex-col gap-16">
@@ -113,10 +116,17 @@ const ProductDetailsModule = ({ productSlug }) => {
 
           <p className="font-medium text-gray-600">Description: {about}</p>
 
-          <Button className="self-start" onClick={handleAddProductToCart}>
-            <ShoppingCart />
-            <span>Add to Cart</span>
-          </Button>
+          {isAlreadyAdded ? (
+            <Badge className="self-start py-3 px-2 flex items-center gap-1 text-gray-900 bg-green-400 hover:bg-green-400">
+              <CircleCheck size={16} />
+              <span>Product Already Added</span>
+            </Badge>
+          ) : (
+            <Button className="self-start" onClick={handleAddProductToCart}>
+              <ShoppingCart />
+              <span>Add to Cart</span>
+            </Button>
+          )}
         </div>
       </div>
 
