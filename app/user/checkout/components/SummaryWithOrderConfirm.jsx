@@ -5,25 +5,14 @@ import { calcDiscountPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 const SummaryWithOrderConfirm = ({ cart, formik }) => {
-  const priceWithoutDiscount = cart.reduce((accu, item) => {
-    const {
-      quantity,
-      product: { price },
-    } = item;
-
-    const result = accu + calcDiscountPrice(price, 0) * quantity;
-    return result;
-  }, 0);
-
-  const priceWithDiscount = cart.reduce((accu, item) => {
-    const {
-      quantity,
-      product: { price, discount },
-    } = item;
-
-    const result = accu + calcDiscountPrice(price, discount) * quantity;
-    return result;
-  }, 0);
+  const priceWithoutDiscount = cart.reduce(
+    (accu, item) => accu + item.price * item.quantity,
+    0
+  );
+  const priceWithDiscount = cart.reduce(
+    (accu, item) => accu + item.discountPrice * item.quantity,
+    0
+  );
 
   useEffect(() => {
     formik.setFieldValue("totalPrice", priceWithDiscount);

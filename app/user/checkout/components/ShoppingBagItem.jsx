@@ -5,16 +5,7 @@ import { calcDiscountPrice } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
 const ShoppingBagItem = ({
-  cartProduct: {
-    quantity,
-    product: {
-      uid,
-      discount,
-      price,
-      baseProduct: { name },
-      ProductConfigs,
-    },
-  },
+  cartProduct: { productName, quantity, discountPrice, ProductConfigs },
 }) => {
   return (
     <div className="flex flex-col md:flex-row md:justify-between gap-2 bg-gray-100 px-4 py-6 shadow rounded-md">
@@ -29,7 +20,7 @@ const ShoppingBagItem = ({
           />
         </figure>
         <div className="py-2">
-          <h5 className="text-lg font-medium text-gray-600">{name}</h5>
+          <h5 className="text-lg font-medium text-gray-600">{productName}</h5>
 
           <div className="flex flex-wrap gap-2">
             {ProductConfigs.map((attribute) => (
@@ -48,11 +39,11 @@ const ShoppingBagItem = ({
 
       <div className="font-semibold text-lg text-gray-600">
         <p className="hidden md:block">
-          ${calcDiscountPrice(price, discount)} x {quantity}
+          ${discountPrice} x {quantity}
         </p>
 
         <p className="block md:hidden">
-          Price: ${calcDiscountPrice(price, discount)} x {quantity}
+          Price: ${discountPrice} x {quantity}
         </p>
       </div>
     </div>

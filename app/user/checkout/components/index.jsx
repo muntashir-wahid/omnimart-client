@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { number, object, string } from "yup";
-import { useQuery } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { PencilLine } from "lucide-react";
 
@@ -16,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-import ShoppingBagItem from "../../cart/components/ShoppingBagItem";
+import ShoppingBagItem from "./ShoppingBagItem";
 import SummaryWithOrderConfirm from "./SummaryWithOrderConfirm";
 
 const paymentMethods = [
@@ -42,11 +41,6 @@ const CheckoutModule = () => {
   const cart = useSelector((state) => state.cart.cart);
   const router = useRouter();
   const dispatch = useDispatch();
-
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ["cart"],
-    queryFn: APIKit.cart.getCart,
-  });
 
   const formik = useFormik({
     initialValues: {
@@ -184,18 +178,17 @@ const CheckoutModule = () => {
         </h3>
 
         <div>
-          {isLoading ? (
+          {!cart ? (
             <div className="h-24 w-full flex items-center justify-center">
               <p>Shopping bag is loading...</p>
             </div>
           ) : (
             <>
               <div className="flex flex-col gap-4 mt-10">
-                {data.data.cart.CartItems.map((cartProduct) => (
+                {cart?.map((cartProduct) => (
                   <ShoppingBagItem
-                    key={cartProduct.product.uid}
+                    key={cartProduct.cartItemUid}
                     cartProduct={cartProduct}
-                    refetchCart={refetch}
                   />
                 ))}
               </div>
@@ -204,10 +197,7 @@ const CheckoutModule = () => {
                 <h3 className="text-2xl font-medium text-gray-600 my-4">
                   Cart Summary
                 </h3>
-                <SummaryWithOrderConfirm
-                  formik={formik}
-                  cart={data.data.cart.CartItems}
-                />
+                <SummaryWithOrderConfirm formik={formik} cart={cart} />
               </div>
             </>
           )}

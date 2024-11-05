@@ -1,16 +1,13 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import { useSelector } from "react-redux";
 
-import APIKit from "@/lib/apiKit";
+import { Button } from "@/components/ui/button";
 
 import CartItem from "./CartItem";
 import CartSummary from "./CartSummary";
 import Container from "@/components/shared/Container/Container";
-import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { useSelector } from "react-redux";
 
 const CartModule = () => {
   const cart = useSelector((state) => state.cart.cart);
