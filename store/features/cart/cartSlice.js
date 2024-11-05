@@ -120,7 +120,7 @@ export const counterSlice = createSlice({
   initialState,
   reducers: {
     removeCart: (state) => {
-      state.cart = null;
+      state.cart = [];
     },
   },
 

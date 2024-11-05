@@ -1,12 +1,14 @@
 "use client";
 
-import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 import { number, object, string } from "yup";
 import { useQuery } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { PencilLine } from "lucide-react";
 
 import APIKit from "@/lib/apiKit";
+import { removeCart } from "@/store/features/cart/cartSlice";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import ShoppingBagItem from "../../cart/components/ShoppingBagItem";
-import SummaryWithOrderConfirm from "../../cart/components/SummayWithOrderConfirm";
+import SummaryWithOrderConfirm from "./SummaryWithOrderConfirm";
 
 const paymentMethods = [
   { name: "Cash on Deliver", slug: "CASH_ON_DELIVERY" },
@@ -37,6 +39,9 @@ const checkoutSchema = object({
 
 const CheckoutModule = () => {
   const user = useSelector((state) => state.currentUser.user);
+  const cart = useSelector((state) => state.cart.cart);
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["cart"],
@@ -55,7 +60,8 @@ const CheckoutModule = () => {
     onSubmit: async (values) => {
       try {
         const order = await APIKit.orders.placeOrder(values);
-        console.log(order);
+        dispatch(removeCart());
+        router.push(`/user/orders/${order.data.order.uid}`);
       } catch (err) {
         console.log(err);
       }
