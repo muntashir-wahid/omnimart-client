@@ -18,7 +18,7 @@ import Container from "@/components/shared/Container/Container";
 const dropdownMenuItems = {
   USER: [
     { label: "My Profile", href: "/user/profile" },
-    { label: "My Orders", href: "/user/profile" },
+    { label: "My Orders", href: "/user/orders" },
   ],
   ADMIN: [{ label: "Admin", href: "/admin" }],
   ["SUPER_ADMIN"]: [{ label: "Super Admin", href: "/super_admin" }],
