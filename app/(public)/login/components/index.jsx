@@ -15,6 +15,8 @@ import { Label } from "@/components/ui/label";
 
 import FormError from "@/components/shared/Form/FormError";
 import { setCurrentUser } from "@/store/features/currentUser/currentUser";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const loginSchema = object({
   email: string().required("Email is Required").email("Use a valid email"),
@@ -36,13 +38,13 @@ const LoginModule = () => {
     onSubmit: async (values) => {
       try {
         const { email, password } = values;
-
         const { data } = await APIKit.auth.login(email, password);
-
         dispatch(setCurrentUser(data.user));
         userRedirectionHandler(data.user.userRole, router);
+        toast.success("You are successfully logged in!");
       } catch (err) {
         console.log(err);
+        toast.error(err.data.message);
       }
     },
   });
@@ -76,7 +78,16 @@ const LoginModule = () => {
           <FormError formik={formik} name="password" />
         </div>
 
-        <Button type="submit">Login</Button>
+        <Button disabled={formik.isSubmitting} type="submit">
+          {formik.isSubmitting ? (
+            <>
+              <Loader2 className="animate-spin" />
+              Please Wait
+            </>
+          ) : (
+            "Login"
+          )}
+        </Button>
       </form>
 
       <p className="mt-6">
