@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import { Toaster } from "sonner";
 
 import "./globals.css";
 
@@ -20,6 +21,17 @@ export default function RootLayout({ children }) {
     <html lang="en" className={inter.className}>
       <body>
         <GlobalProvider allChildren={children} />
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            classNames: {
+              error: "text-red-400",
+              success: "text-green-400",
+              warning: "text-yellow-400",
+              info: "text-blue-400",
+            },
+          }}
+        />
       </body>
     </html>
   );

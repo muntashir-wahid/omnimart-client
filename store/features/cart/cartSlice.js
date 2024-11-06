@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import APIKit from "@/lib/apiKit";
 import { calcDiscountPrice } from "@/lib/utils";
+import { toast } from "sonner";
 
 const initialState = {
   cart: [],
@@ -51,67 +52,75 @@ export const fetchCart = createAsyncThunk("fetch/cart", async () => {
 export const addProductToCart = createAsyncThunk(
   "addProductToCart",
   async (data) => {
-    const { data: cartData } = await APIKit.cart.addProductToCart(data);
+    try {
+      const { data: cartData } = await APIKit.cart.addProductToCart(data);
 
-    const {
-      uid: cartItemUid,
-      quantity,
-      product: {
-        uid: productUid,
+      const {
+        uid: cartItemUid,
+        quantity,
+        product: {
+          uid: productUid,
+          discount,
+          price,
+          baseProduct: { name },
+          ProductConfigs,
+        },
+      } = cartData.cart;
+
+      return {
+        cartItemUid,
+        productUid,
+        productName: name,
+        quantity,
+        price: +price,
         discount,
-        price,
-        baseProduct: { name },
+        discountPrice: calcDiscountPrice(price, discount),
         ProductConfigs,
-      },
-    } = cartData.cart;
-
-    return {
-      cartItemUid,
-      productUid,
-      productName: name,
-      quantity,
-      price: +price,
-      discount,
-      discountPrice: calcDiscountPrice(price, discount),
-      ProductConfigs,
-    };
+      };
+    } catch (err) {
+      throw new Error(err.data.message);
+    }
   }
 );
 
 export const mutateCartQuantity = createAsyncThunk(
   "mutateCartQuantity",
   async (data) => {
-    const { data: cartData } = await APIKit.cart.addProductToCart(data);
+    try {
+      const { data: cartData } = await APIKit.cart.addProductToCart(data);
 
-    if (!cartData.cart) {
+      if (!cartData.cart) {
+        return {
+          removeProduct: true,
+          productUid: data.productUid,
+        };
+      }
+
+      const {
+        uid: cartItemUid,
+        quantity,
+        product: {
+          uid: productUid,
+          discount,
+          price,
+          baseProduct: { name },
+          ProductConfigs,
+        },
+      } = cartData.cart;
+
       return {
-        removeProduct: true,
-        productUid: data.productUid,
-      };
-    }
-
-    const {
-      uid: cartItemUid,
-      quantity,
-      product: {
-        uid: productUid,
+        cartItemUid,
+        productUid,
+        productName: name,
+        quantity,
+        price: +price,
         discount,
-        price,
-        baseProduct: { name },
+        discountPrice: calcDiscountPrice(price, discount),
         ProductConfigs,
-      },
-    } = cartData.cart;
-
-    return {
-      cartItemUid,
-      productUid,
-      productName: name,
-      quantity,
-      price: +price,
-      discount,
-      discountPrice: calcDiscountPrice(price, discount),
-      ProductConfigs,
-    };
+      };
+    } catch (err) {
+      throw new Error(err.data.message);
+    }
   }
 );
 
@@ -133,6 +142,10 @@ export const counterSlice = createSlice({
       state.cart.push(action.payload);
     });
 
+    builder.addCase(addProductToCart.rejected, (_, error) => {
+      toast.error(error.error.message);
+    });
+
     builder.addCase(mutateCartQuantity.fulfilled, (state, action) => {
       if (action.payload.removeProduct) {
         state.cart = state.cart.filter(
@@ -147,6 +160,10 @@ export const counterSlice = createSlice({
       );
 
       state.cart[matchItemIndex] = action.payload;
+    });
+
+    builder.addCase(mutateCartQuantity.rejected, (_, error) => {
+      toast.error(error.error.message);
     });
   },
 });

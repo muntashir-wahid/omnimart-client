@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { CircleCheck, ShoppingCart } from "lucide-react";
+import { Ban, CircleCheck, ShoppingCart } from "lucide-react";
 
 import APIKit from "@/lib/apiKit";
 import { calcDiscountPrice, cn } from "@/lib/utils";
@@ -117,15 +117,27 @@ const ProductDetailsModule = ({ productSlug }) => {
           <p className="font-medium text-gray-600">Description: {about}</p>
 
           {isAlreadyAdded ? (
-            <Badge className="self-start py-3 px-2 flex items-center gap-1 text-gray-900 bg-green-400 hover:bg-green-400">
-              <CircleCheck size={16} />
+            <Badge className="self-start flex p-1 items-center gap-1 text-gray-900 bg-green-400 hover:bg-green-400">
+              <CircleCheck size={14} className="mb-[2px]" />
               <span>Product Already Added</span>
             </Badge>
           ) : (
-            <Button className="self-start" onClick={handleAddProductToCart}>
-              <ShoppingCart />
-              <span>Add to Cart</span>
-            </Button>
+            <>
+              {stock > 0 ? (
+                <Button className="self-start" onClick={handleAddProductToCart}>
+                  <ShoppingCart />
+                  <span>Add to Cart</span>
+                </Button>
+              ) : (
+                <Badge
+                  className="self-start p-1 flex items-center gap-1"
+                  variant="destructive"
+                >
+                  <Ban size={14} className="mb-[2px]" />
+                  <span>Out of Stock</span>
+                </Badge>
+              )}
+            </>
           )}
         </div>
       </div>
