@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { calcDiscountPrice } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 const SummaryWithOrderConfirm = ({ cart, formik }) => {
   const priceWithoutDiscount = cart.reduce(
@@ -43,8 +44,19 @@ const SummaryWithOrderConfirm = ({ cart, formik }) => {
         </span>
       </p>
 
-      <Button type="button" onClick={formik.handleSubmit}>
-        Place Order
+      <Button
+        disabled={formik.isSubmitting}
+        onClick={formik.handleSubmit}
+        type="submit"
+      >
+        {formik.isSubmitting ? (
+          <>
+            <Loader2 className="animate-spin" />
+            Please Wait
+          </>
+        ) : (
+          "Place Order"
+        )}
       </Button>
     </div>
   );

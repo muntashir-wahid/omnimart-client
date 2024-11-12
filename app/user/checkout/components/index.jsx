@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { number, object, string } from "yup";
 import { useFormik } from "formik";
 import { PencilLine } from "lucide-react";
+import { toast } from "sonner";
 
 import APIKit from "@/lib/apiKit";
 import { removeCart } from "@/store/features/cart/cartSlice";
@@ -56,8 +57,12 @@ const CheckoutModule = () => {
         const order = await APIKit.orders.placeOrder(values);
         dispatch(removeCart());
         router.push(`/user/orders/${order.data.order.uid}`);
+        toast.success("Order placed successfully!");
       } catch (err) {
         console.log(err);
+        const errorMessage =
+          err?.data?.message || "Something went wrong. Please try again.";
+        toast.error(errorMessage);
       }
     },
   });
