@@ -116,29 +116,36 @@ const ProductDetailsModule = ({ productSlug }) => {
 
           <p className="font-medium text-gray-600">Description: {about}</p>
 
-          {isAlreadyAdded ? (
-            <Badge className="self-start flex p-1 items-center gap-1 text-gray-900 bg-green-400 hover:bg-green-400">
-              <CircleCheck size={14} className="mb-[2px]" />
-              <span>Product Already Added</span>
-            </Badge>
-          ) : (
+          {user.userRole === "USER" ? (
             <>
-              {stock > 0 ? (
-                <Button className="self-start" onClick={handleAddProductToCart}>
-                  <ShoppingCart />
-                  <span>Add to Cart</span>
-                </Button>
-              ) : (
-                <Badge
-                  className="self-start p-1 flex items-center gap-1"
-                  variant="destructive"
-                >
-                  <Ban size={14} className="mb-[2px]" />
-                  <span>Out of Stock</span>
+              {isAlreadyAdded ? (
+                <Badge className="self-start flex p-1 items-center gap-1 text-gray-900 bg-green-400 hover:bg-green-400">
+                  <CircleCheck size={14} className="mb-[2px]" />
+                  <span>Product Already Added</span>
                 </Badge>
+              ) : (
+                <>
+                  {stock > 0 ? (
+                    <Button
+                      className="self-start"
+                      onClick={handleAddProductToCart}
+                    >
+                      <ShoppingCart />
+                      <span>Add to Cart</span>
+                    </Button>
+                  ) : (
+                    <Badge
+                      className="self-start p-1 flex items-center gap-1"
+                      variant="destructive"
+                    >
+                      <Ban size={14} className="mb-[2px]" />
+                      <span>Out of Stock</span>
+                    </Badge>
+                  )}
+                </>
               )}
             </>
-          )}
+          ) : null}
         </div>
       </div>
 
