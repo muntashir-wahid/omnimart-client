@@ -1,5 +1,7 @@
+import UserProfile from "@/components/shared/UserProfile/UserProfile";
+
 const UserProfilePage = () => {
-  return <div>Welcome to User Profile page</div>;
+  return <UserProfile />;
 };
 
 export default UserProfilePage;

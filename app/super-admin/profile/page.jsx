@@ -1,7 +1,7 @@
-import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
+import UserProfile from "@/components/shared/UserProfile/UserProfile";
 
 const SuperAdminProfilePage = () => {
-  return <DataLoadingState content="Super Admin Profile Coming Soon..." />;
+  return <UserProfile />;
 };
 
 export default SuperAdminProfilePage;
