@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -15,39 +16,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
-
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
 
 const SearchAndSelect = ({
   placeholder = "Search...",
   invalidSearchText = "No result found.",
   options = [],
   labelText = "Select...",
+  value,
+  onChange,
 }) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -64,7 +42,7 @@ const SearchAndSelect = ({
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="max-w-xl p-0">
+      <PopoverContent className="w-[300px] p-0" sticky="always">
         <Command>
           <CommandInput placeholder={placeholder} />
           <CommandList>
@@ -75,8 +53,8 @@ const SearchAndSelect = ({
                   key={item.value}
                   value={item.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
+                    onChange(currentValue);
                   }}
                 >
                   <Check

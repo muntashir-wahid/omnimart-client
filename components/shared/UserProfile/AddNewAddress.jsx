@@ -21,6 +21,8 @@ import { Textarea } from "@/components/ui/textarea";
 
 const stockSchema = object({
   divisionId: number().required("Division is Required"),
+  districtId: number().required("District is Required"),
+  areaId: number().required("Area is Required"),
 });
 
 const createOptionsFromData = (
@@ -30,7 +32,7 @@ const createOptionsFromData = (
 ) => {
   return dataList.map((item, index) => ({
     label: item[labelTargetField],
-    value: item[valueTargetField],
+    value: "" + item[valueTargetField],
   }));
 };
 
@@ -43,6 +45,8 @@ const AddNewAddress = ({ openAddressAddModal, setOpenAddressAddModal }) => {
   const formik = useFormik({
     initialValues: {
       divisionId: "",
+      districtId: "",
+      areaId: "",
     },
     validationSchema: stockSchema,
     onSubmit: async (values) => {
@@ -66,11 +70,29 @@ const AddNewAddress = ({ openAddressAddModal, setOpenAddressAddModal }) => {
     },
   });
 
+  const { data: districts, isLoading: isDistrictsLoading } = useQuery({
+    queryKey: [`divisions/${formik.values.divisionId}/districts`],
+    queryFn: () =>
+      APIKit.geoLocationsBD.getAllDistrictsOnDivision(formik.values.divisionId),
+
+    enabled: !!formik.values.divisionId,
+  });
+
+  const { data: regions, isLoading: isRegionsLoading } = useQuery({
+    queryKey: [`districts/${formik.values.districtId}/regions`],
+    queryFn: () =>
+      APIKit.geoLocationsBD.getAllAreasOnDistrict(formik.values.districtId),
+
+    enabled: !!formik.values.districtId,
+  });
+
   if (isDivisionsLoading) {
     return <div>Loading data...</div>;
   }
 
   const divisionList = divisions?.data.divisions;
+  const districtList = districts?.data.districts;
+  const regionList = regions?.data.regions;
 
   return (
     <Dialog open={openAddressAddModal} onOpenChange={setOpenAddressAddModal}>
@@ -100,8 +122,10 @@ const AddNewAddress = ({ openAddressAddModal, setOpenAddressAddModal }) => {
                 placeholder="Select for Division"
                 labelText="Select a Division"
                 options={createOptionsFromData(divisionList)}
-                // onChange={formik.handleChange}
-                // value={formik.values.sku}
+                onChange={(selectedValue) =>
+                  formik.setFieldValue("divisionId", selectedValue)
+                }
+                value={formik.values.divisionId}
               />
               <FormError formik={formik} name="divisionId" />
             </div>
@@ -112,9 +136,11 @@ const AddNewAddress = ({ openAddressAddModal, setOpenAddressAddModal }) => {
                 id="districtId"
                 placeholder="Select for District"
                 labelText="Select a District"
-                options={createOptionsFromData(divisionList)}
-                // onChange={formik.handleChange}
-                // value={formik.values.sku}
+                options={createOptionsFromData(districtList)}
+                onChange={(selectedValue) =>
+                  formik.setFieldValue("districtId", selectedValue)
+                }
+                value={formik.values.districtId}
               />
               <FormError formik={formik} name="districtId" />
             </div>
@@ -125,9 +151,11 @@ const AddNewAddress = ({ openAddressAddModal, setOpenAddressAddModal }) => {
                 id="areaId"
                 placeholder="Select for Area"
                 labelText="Select a Area"
-                options={createOptionsFromData(divisionList)}
-                // onChange={formik.handleChange}
-                // value={formik.values.sku}
+                options={createOptionsFromData(regionList)}
+                onChange={(selectedValue) =>
+                  formik.setFieldValue("areaId", selectedValue)
+                }
+                value={formik.values.areaId}
               />
               <FormError formik={formik} name="areaId" />
             </div>
