@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import { format } from "date-fns";
 import { useSelector } from "react-redux";
 import { PencilLine } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+
 import DataLoadingState from "../Loaders/DataLoadingState";
-import { format } from "date-fns";
 
 const UserProfile = ({ extraClassNames }) => {
   const user = useSelector((state) => state.currentUser.user);
