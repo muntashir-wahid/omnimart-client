@@ -15,14 +15,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import FormError from "@/components/shared/Form/FormError";
-import SearchAndSelect from "../Form/SearchAndSelect";
+import SelectField from "../Form/SelectField";
 import { useQuery } from "@tanstack/react-query";
 import { Textarea } from "@/components/ui/textarea";
 
 const stockSchema = object({
+  label: string().required("Label is Required"),
   divisionId: number().required("Division is Required"),
   districtId: number().required("District is Required"),
   areaId: number().required("Area is Required"),
+  addressLine: string().required("Address line is Required"),
 });
 
 const createOptionsFromData = (
@@ -37,16 +39,13 @@ const createOptionsFromData = (
 };
 
 const AddNewAddress = ({ openAddressAddModal, setOpenAddressAddModal }) => {
-  const { data: divisions, isLoading: isDivisionsLoading } = useQuery({
-    queryKey: ["divisions"],
-    queryFn: APIKit.geoLocationsBD.getAllDivisions,
-  });
-
   const formik = useFormik({
     initialValues: {
+      label: "",
       divisionId: "",
       districtId: "",
       areaId: "",
+      addressLine: "",
     },
     validationSchema: stockSchema,
     onSubmit: async (values) => {
@@ -56,6 +55,8 @@ const AddNewAddress = ({ openAddressAddModal, setOpenAddressAddModal }) => {
         //   sku,
         //   values
         // );
+
+        console.log(values);
 
         setOpenAddressAddModal(false);
         // refetchStock();
@@ -70,6 +71,13 @@ const AddNewAddress = ({ openAddressAddModal, setOpenAddressAddModal }) => {
     },
   });
 
+  // Fetch All Division
+  const { data: divisions, isLoading: isDivisionsLoading } = useQuery({
+    queryKey: ["divisions"],
+    queryFn: APIKit.geoLocationsBD.getAllDivisions,
+  });
+
+  // Fetch All Districts of a Division
   const { data: districts, isLoading: isDistrictsLoading } = useQuery({
     queryKey: [`divisions/${formik.values.divisionId}/districts`],
     queryFn: () =>
@@ -78,7 +86,8 @@ const AddNewAddress = ({ openAddressAddModal, setOpenAddressAddModal }) => {
     enabled: !!formik.values.divisionId,
   });
 
-  const { data: regions, isLoading: isRegionsLoading } = useQuery({
+  // Fetch All Areas of a District
+  const { data: regions } = useQuery({
     queryKey: [`districts/${formik.values.districtId}/regions`],
     queryFn: () =>
       APIKit.geoLocationsBD.getAllAreasOnDistrict(formik.values.districtId),
@@ -117,7 +126,7 @@ const AddNewAddress = ({ openAddressAddModal, setOpenAddressAddModal }) => {
 
             <div className="space-y-1">
               <Label htmlFor="divisionId">Choose a Division</Label>
-              <SearchAndSelect
+              <SelectField
                 id="divisionId"
                 placeholder="Select for Division"
                 labelText="Select a Division"
@@ -132,7 +141,7 @@ const AddNewAddress = ({ openAddressAddModal, setOpenAddressAddModal }) => {
 
             <div className="space-y-1">
               <Label htmlFor="districtId">Choose a District</Label>
-              <SearchAndSelect
+              <SelectField
                 id="districtId"
                 placeholder="Select for District"
                 labelText="Select a District"
@@ -147,7 +156,7 @@ const AddNewAddress = ({ openAddressAddModal, setOpenAddressAddModal }) => {
 
             <div className="space-y-1">
               <Label htmlFor="areaId">Choose a Upazila/Area</Label>
-              <SearchAndSelect
+              <SelectField
                 id="areaId"
                 placeholder="Select for Area"
                 labelText="Select a Area"
