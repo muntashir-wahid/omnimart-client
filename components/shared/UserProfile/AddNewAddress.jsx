@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { number, object, string } from "yup";
 
@@ -13,11 +14,10 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 import FormError from "@/components/shared/Form/FormError";
 import SelectField from "../Form/SelectField";
-import { useQuery } from "@tanstack/react-query";
-import { Textarea } from "@/components/ui/textarea";
 
 const stockSchema = object({
   label: string().required("Label is Required"),
@@ -38,7 +38,11 @@ const createOptionsFromData = (
   }));
 };
 
-const AddNewAddress = ({ openAddressAddModal, setOpenAddressAddModal }) => {
+const AddNewAddress = ({
+  openAddressAddModal,
+  setOpenAddressAddModal,
+  refetchAddresses,
+}) => {
   const formik = useFormik({
     initialValues: {
       label: "",
@@ -50,23 +54,18 @@ const AddNewAddress = ({ openAddressAddModal, setOpenAddressAddModal }) => {
     validationSchema: stockSchema,
     onSubmit: async (values) => {
       try {
-        // const { data } = await APIKit.inventory.stock.updateInventoryStock(
-        //   inventoryUid,
-        //   sku,
-        //   values
-        // );
-
-        console.log(values);
-
+        const { data } = await APIKit.users.addresses.addAddress(values);
+        console.log(data);
         setOpenAddressAddModal(false);
-        // refetchStock();
+        refetchAddresses();
       } catch (err) {
         console.log(err);
       } finally {
-        // formik.setFieldValue("price", 0);
-        // formik.setFieldValue("stock", 0);
-        // formik.setFieldValue("sku", "");
-        // formik.setFieldValue("discount", 0);
+        formik.setFieldValue("label", "");
+        formik.setFieldValue("divisionId", "");
+        formik.setFieldValue("districtId", "");
+        formik.setFieldValue("areaId", "");
+        formik.setFieldValue("addressLine", "");
       }
     },
   });
