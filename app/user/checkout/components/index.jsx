@@ -4,20 +4,19 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { number, object, string } from "yup";
 import { useFormik } from "formik";
-import { PencilLine } from "lucide-react";
 import { toast } from "sonner";
 
 import APIKit from "@/lib/apiKit";
 import { removeCart } from "@/store/features/cart/cartSlice";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import ShoppingBagItem from "./ShoppingBagItem";
 import SummaryWithOrderConfirm from "./SummaryWithOrderConfirm";
+import UserAddresses from "./UserAddresses";
 
 const paymentMethods = [
   { name: "Cash on Deliver", slug: "CASH_ON_DELIVERY" },
@@ -49,7 +48,7 @@ const CheckoutModule = () => {
       deliveryCharge: 100,
       paymentMethod: "CASH_ON_DELIVERY",
       deliveryMethod: "HOME_DELIVERY",
-      addressUid: "Jashore",
+      addressUid: "",
     },
     validationSchema: checkoutSchema,
     onSubmit: async (values) => {
@@ -142,19 +141,7 @@ const CheckoutModule = () => {
             Delivery Address
           </h3>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex justify-between items-center">
-                <h5>Default Address</h5>
-                <Button variant="outline" size="icon">
-                  <PencilLine className="h-4 w-4" />
-                </Button>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p>Block: C, House: 36, New Market, Jashore.</p>
-            </CardContent>
-          </Card>
+          <UserAddresses formik={formik} />
         </div>
 
         <div>

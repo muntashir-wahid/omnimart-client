@@ -13,6 +13,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import FormError from "@/components/shared/Form/FormError";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "@/store/features/currentUser/currentUser";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const registerSchema = object({
   firstName: string().required("First Name is Required"),
@@ -26,6 +30,7 @@ const registerSchema = object({
 
 const RegisterModule = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -47,9 +52,12 @@ const RegisterModule = () => {
           phone
         );
 
+        dispatch(setCurrentUser(data.user));
+        toast.success("Successfully Registered!");
         userRedirectionHandler(data.user.userRole, router);
       } catch (err) {
         console.log(err);
+        toast.error(err.data.message);
       }
     },
   });
@@ -114,7 +122,17 @@ const RegisterModule = () => {
           <FormError formik={formik} name="password" />
         </div>
 
-        <Button type="submit">Register</Button>
+        {/* <Button type="submit">Register</Button> */}
+        <Button disabled={formik.isSubmitting} type="submit">
+          {formik.isSubmitting ? (
+            <>
+              <Loader2 className="animate-spin" />
+              Please Wait
+            </>
+          ) : (
+            "Register"
+          )}
+        </Button>
       </form>
 
       <p className="mt-6">
