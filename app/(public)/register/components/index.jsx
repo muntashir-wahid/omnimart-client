@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { object, string } from "yup";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 import APIKit from "@/lib/apiKit";
 import { userRedirectionHandler } from "@/lib/utils";
@@ -15,8 +17,6 @@ import { Label } from "@/components/ui/label";
 import FormError from "@/components/shared/Form/FormError";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "@/store/features/currentUser/currentUser";
-import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
 
 const registerSchema = object({
   firstName: string().required("First Name is Required"),

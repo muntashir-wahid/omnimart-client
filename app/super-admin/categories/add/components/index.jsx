@@ -3,6 +3,8 @@
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { object, string } from "yup";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 import APIKit from "@/lib/apiKit";
 
@@ -30,9 +32,12 @@ const SuperAdminCategoryAddModule = () => {
       try {
         const { data } = await APIKit.categories.addCategory(values);
 
+        toast.success("New Category created successfully!");
+
         router.push("/super-admin/categories");
       } catch (err) {
         console.log(err);
+        toast.error(err.data?.message);
       }
     },
   });
@@ -62,7 +67,16 @@ const SuperAdminCategoryAddModule = () => {
           <FormError formik={formik} name="description" />
         </div>
 
-        <Button type="submit">Add Category</Button>
+        <Button disabled={formik.isSubmitting} type="submit">
+          {formik.isSubmitting ? (
+            <>
+              <Loader2 className="animate-spin" />
+              Please Wait
+            </>
+          ) : (
+            "Add Category"
+          )}
+        </Button>
       </form>
     </div>
   );

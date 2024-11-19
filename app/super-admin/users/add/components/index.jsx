@@ -3,6 +3,7 @@
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { object, string } from "yup";
+import { toast } from "sonner";
 
 import APIKit from "@/lib/apiKit";
 
@@ -53,10 +54,11 @@ const SuperAdminAddUserModule = () => {
     onSubmit: async (values) => {
       try {
         const { data } = await APIKit.users.addUser(values);
-
+        toast.success("New user added successfully!");
         router.push("/super-admin/users");
       } catch (err) {
         console.log(err);
+        toast.error(err.data.message);
       }
     },
   });
