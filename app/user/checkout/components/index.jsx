@@ -33,7 +33,7 @@ const checkoutSchema = object({
   deliveryCharge: number().required("Delivery charge is required"),
   paymentMethod: string().required("Payment method is required"),
   deliveryMethod: string().required("Delivery method is required"),
-  addressUid: string().required("Address is required"),
+  userAddressUid: string().required("Address is required"),
 });
 
 const CheckoutModule = () => {
@@ -48,7 +48,7 @@ const CheckoutModule = () => {
       deliveryCharge: 100,
       paymentMethod: "CASH_ON_DELIVERY",
       deliveryMethod: "HOME_DELIVERY",
-      addressUid: "",
+      userAddressUid: "",
     },
     validationSchema: checkoutSchema,
     onSubmit: async (values) => {

@@ -10,15 +10,18 @@ const UserAddressCard = ({
     label,
     address: { addressLine, district, division, dhakaCity, upazila },
   },
+  isEditAble = true,
 }) => {
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex justify-between items-center">
           <h5>{label}</h5>
-          <Button variant="outline" size="icon">
-            <PencilLine className="h-4 w-4" />
-          </Button>
+          {isEditAble ? (
+            <Button variant="outline" size="icon">
+              <PencilLine className="h-4 w-4" />
+            </Button>
+          ) : null}
         </CardTitle>
       </CardHeader>
       <CardContent>

@@ -9,8 +9,8 @@ import ProductCard from "@/components/shared/Cards/ProductCard";
 
 const MensClothSection = () => {
   const { data, isLoading } = useQuery({
-    queryKey: ["products-men-clothing"],
-    queryFn: () => APIKit.products.getAllProducts({ category: "men-clothing" }),
+    queryKey: ["products-men"],
+    queryFn: () => APIKit.products.getAllProducts({ category: "men" }),
   });
 
   if (isLoading) {

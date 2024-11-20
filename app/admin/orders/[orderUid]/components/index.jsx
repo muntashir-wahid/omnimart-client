@@ -10,6 +10,7 @@ import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
 import OrderedProductCard from "@/app/user/orders/[orderUid]/components/OrderedProductCard";
 import OrderTrackingInfo from "@/app/user/orders/[orderUid]/components/OrderTrackingInfo";
 import OrderPriceSummary from "@/app/user/orders/[orderUid]/components/OrderPriceSummary";
+import UserAddressCard from "@/components/shared/UserProfile/UserAddressCard";
 
 const AdminOrderDetailsModule = ({ orderUid }) => {
   const { data, isLoading } = useQuery({
@@ -30,6 +31,7 @@ const AdminOrderDetailsModule = ({ orderUid }) => {
       orderStatus,
       updatedAt,
       user: { firstName, lastName, email, phone },
+      userAddress,
     },
   } = data.data;
 
@@ -40,7 +42,7 @@ const AdminOrderDetailsModule = ({ orderUid }) => {
           Ordered Summary
         </h3>
 
-        <div className="flex flex-col sm:flex-row lg:flex-col gap-8 ">
+        <div className="flex flex-col lg:flex-col gap-8 ">
           <Card className="w-full">
             <CardHeader>
               <CardTitle className="flex justify-between items-center">
@@ -55,6 +57,10 @@ const AdminOrderDetailsModule = ({ orderUid }) => {
               <p>Phone: {phone}</p>
             </CardContent>
           </Card>
+
+          <div className="w-full">
+            <UserAddressCard addressData={userAddress} isEditAble={false} />
+          </div>
 
           <div className="w-full">
             <OrderTrackingInfo

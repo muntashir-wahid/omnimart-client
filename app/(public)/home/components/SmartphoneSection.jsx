@@ -9,8 +9,8 @@ import ProductCard from "@/components/shared/Cards/ProductCard";
 
 const SmartphoneSection = () => {
   const { data, isLoading } = useQuery({
-    queryKey: ["products-smartphone"],
-    queryFn: () => APIKit.products.getAllProducts({ category: "smartphone" }),
+    queryKey: ["products-smartphones"],
+    queryFn: () => APIKit.products.getAllProducts({ category: "smartphones" }),
   });
 
   if (isLoading) {

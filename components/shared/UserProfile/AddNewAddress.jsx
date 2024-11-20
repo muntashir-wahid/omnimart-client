@@ -55,7 +55,6 @@ const AddNewAddress = ({
     onSubmit: async (values) => {
       try {
         const { data } = await APIKit.users.addresses.addAddress(values);
-        console.log(data);
         setOpenAddressAddModal(false);
         refetchAddresses();
       } catch (err) {
@@ -173,7 +172,7 @@ const AddNewAddress = ({
               <Textarea
                 name="addressLine"
                 id="addressLine"
-                placeholder="Product short description..."
+                placeholder="Address Line..."
                 onChange={formik.handleChange}
                 value={formik.values.addressLine}
               />

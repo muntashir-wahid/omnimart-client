@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 
 import FormError from "@/components/shared/Form/FormError";
 import AttributeSelectionsList from "./AttributeSelectionsList";
+import { toast } from "sonner";
 
 const stockSchema = object({
   sku: string().required("sku is Required"),
@@ -71,8 +72,10 @@ const AddNewStock = ({
 
         setOpenStockAddModal(false);
         refetchStock();
+        toast.success("New stock added successfully");
       } catch (err) {
         console.log(err);
+        toast.error(err.data.message);
       } finally {
         formik.setFieldValue("price", basePrice);
         formik.setFieldValue("stock", 0);

@@ -10,6 +10,7 @@ import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
 import OrderedProductCard from "./OrderedProductCard";
 import OrderPriceSummary from "./OrderPriceSummary";
 import OrderTrackingInfo from "./OrderTrackingInfo";
+import UserAddressCard from "@/components/shared/UserProfile/UserAddressCard";
 
 const UserOrderDetailsModule = ({ orderUid }) => {
   const { data, isLoading } = useQuery({
@@ -29,6 +30,7 @@ const UserOrderDetailsModule = ({ orderUid }) => {
       createdAt,
       orderStatus,
       updatedAt,
+      userAddress,
     },
   } = data.data;
 
@@ -64,16 +66,7 @@ const UserOrderDetailsModule = ({ orderUid }) => {
           />
 
           <div>
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex justify-between items-center">
-                  <h5>Default Address</h5>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Block: C, House: 36, New Market, Jashore.</p>
-              </CardContent>
-            </Card>
+            <UserAddressCard addressData={userAddress} isEditAble={false} />
           </div>
         </div>
       </div>

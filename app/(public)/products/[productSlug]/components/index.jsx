@@ -116,7 +116,7 @@ const ProductDetailsModule = ({ productSlug }) => {
 
           <p className="font-medium text-gray-600">Description: {about}</p>
 
-          {user.userRole === "USER" ? (
+          {user?.userRole === "USER" ? (
             <>
               {isAlreadyAdded ? (
                 <Badge className="self-start flex p-1 items-center gap-1 text-gray-900 bg-green-400 hover:bg-green-400">
