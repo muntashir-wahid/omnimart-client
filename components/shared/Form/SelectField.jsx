@@ -10,7 +10,6 @@ import {
 
 const SelectField = ({
   placeholder = "Search...",
-  invalidSearchText = "No result found.",
   options = [],
   labelText = "Select...",
   value,
