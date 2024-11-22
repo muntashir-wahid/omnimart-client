@@ -69,7 +69,7 @@ const AdminCustomersModule = () => {
             onChange={(event) =>
               handleParamsChange(event.target.value, "search")
             }
-            placeholder="Search by Name..."
+            placeholder="Search by Name or Phone..."
           />
         </div>
 
