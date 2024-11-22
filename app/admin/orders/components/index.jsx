@@ -29,7 +29,7 @@ const statuses = [
   { label: "Completed", value: "COMPLETED" },
 ];
 
-const priceSortOptions = [
+const createdAtSortOptions = [
   { label: "Newest to Oldest", value: "createdAt" },
   { label: "Oldest to Newest", value: "-createdAt" },
 ];
@@ -97,7 +97,7 @@ const AdminOrdersModule = () => {
         <div className="space-y-2">
           <Label>Sort by Date</Label>
           <SelectField
-            options={priceSortOptions}
+            options={createdAtSortOptions}
             placeholder="Sort By..."
             // labelText=""
             value={params.sort}

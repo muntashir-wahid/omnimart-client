@@ -21,9 +21,14 @@ import DataLoadingState from "@/components/shared/Loaders/DataLoadingState";
 import SearchField from "@/components/shared/Form/SearchField";
 import SelectField from "@/components/shared/Form/SelectField";
 
+const priceSortOptions = [
+  { label: "Low to Heigh", value: "price" },
+  { label: "Heigh to Low", value: "-price" },
+];
+
 const AdminInventoryModule = () => {
   const router = useRouter();
-  const [params, setParams] = useState({ search: "", category: "" });
+  const [params, setParams] = useState({ search: "", category: "", sort: "" });
 
   const {
     data,
@@ -61,8 +66,8 @@ const AdminInventoryModule = () => {
     <div>
       {/* Search And Filters */}
 
-      <div className="my-4 flex flex-col md:flex-row gap-6">
-        <div className="space-y-2 w-full md:w-3/5">
+      <div className="my-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="space-y-2 sm:col-span-2">
           <Label htmlFor="search">Search Inventory</Label>
           <SearchField
             id="search"
@@ -75,7 +80,7 @@ const AdminInventoryModule = () => {
           />
         </div>
 
-        <div className="space-y-2 w-full md:w-2/5">
+        <div className="space-y-2">
           <Label>Filter by Category</Label>
           <SelectField
             options={
@@ -92,6 +97,19 @@ const AdminInventoryModule = () => {
             value={params.category}
             onChange={(selectedValue) =>
               handleParamsChange(selectedValue, "category")
+            }
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label>Sort by Date</Label>
+          <SelectField
+            options={priceSortOptions}
+            placeholder="Sort By..."
+            // labelText=""
+            value={params.sort}
+            onChange={(selectedValue) =>
+              handleParamsChange(selectedValue, "sort")
             }
           />
         </div>
