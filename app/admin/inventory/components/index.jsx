@@ -102,7 +102,7 @@ const AdminInventoryModule = () => {
         </div>
 
         <div className="space-y-2">
-          <Label>Sort by Date</Label>
+          <Label>Sort by Price</Label>
           <SelectField
             options={priceSortOptions}
             placeholder="Sort By..."

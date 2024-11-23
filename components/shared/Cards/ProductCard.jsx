@@ -11,13 +11,17 @@ const ProductCard = ({
     slug,
     basePrice,
     category: { name: categoryName },
+    ProductImages,
   },
 }) => {
   return (
     <article className="flex flex-col gap-6 rounded-md shadow-md">
       <figure>
         <Image
-          src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e"
+          src={
+            ProductImages[0]?.image.fileUrl ||
+            "https://images.unsplash.com/photo-1523275335684-37898b6baf30"
+          }
           height={360}
           width={400}
           alt="Product Image"

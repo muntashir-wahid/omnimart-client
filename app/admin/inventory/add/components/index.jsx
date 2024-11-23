@@ -3,7 +3,7 @@
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { number, object, string } from "yup";
+import { mixed, number, object, string } from "yup";
 
 import APIKit from "@/lib/apiKit";
 
@@ -30,6 +30,7 @@ const productSchema = object({
     .min(1, "Price must be more then 0"),
   about: string().required("Product About is Required"),
   categoryUid: string().required("Product Category is Required"),
+  image: mixed().required("Image is Required"),
 });
 
 const AdminAddInventoryModule = () => {
@@ -46,11 +47,18 @@ const AdminAddInventoryModule = () => {
       basePrice: "",
       about: "",
       categoryUid: "",
+      image: null,
     },
     validationSchema: productSchema,
     onSubmit: async (values) => {
+      const formData = new FormData();
+
+      Object.keys(values).forEach((keyName) => {
+        formData.append(keyName, values[keyName]);
+      });
+
       try {
-        const { data } = await APIKit.inventory.addInventory(values);
+        const { data } = await APIKit.inventory.addInventory(formData);
 
         router.push(`/admin/inventory/${data.inventory.slug}`);
       } catch (err) {
@@ -128,6 +136,20 @@ const AdminAddInventoryModule = () => {
             value={formik.values.about}
           />
           <FormError formik={formik} name="about" />
+        </div>
+
+        <div className="space-y-1">
+          <Label htmlFor="image">Upload an Image</Label>
+          <Input
+            type="file"
+            id="image"
+            placeholder="Choose an image"
+            onChange={(event) => {
+              formik.setFieldValue("image", event.target.files[0]);
+            }}
+            accept="image/png, image/gif, image/jpeg"
+          />
+          <FormError formik={formik} name="image" />
         </div>
 
         <Button type="submit">Add Inventory</Button>

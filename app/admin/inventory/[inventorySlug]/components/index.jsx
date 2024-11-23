@@ -20,6 +20,7 @@ const AdminInventoryDetailsModule = ({ inventorySlug }) => {
   }
 
   const { inventory: product } = data.data;
+  // console.log(product.ProductImages[0].image.fileUrl);
 
   return (
     <div className="w-full max-w-5xl mx-auto flex flex-col gap-16">
@@ -27,7 +28,10 @@ const AdminInventoryDetailsModule = ({ inventorySlug }) => {
       <div className="flex flex-col gap-6">
         <figure>
           <Image
-            src="https://images.unsplash.com/photo-1523275335684-37898b6baf30"
+            src={
+              product.ProductImages[0]?.image.fileUrl ||
+              "https://images.unsplash.com/photo-1523275335684-37898b6baf30"
+            }
             height={400}
             width={1200}
             alt="Product Image"
