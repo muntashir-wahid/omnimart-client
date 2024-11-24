@@ -4,6 +4,8 @@ import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { mixed, number, object, string } from "yup";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 import APIKit from "@/lib/apiKit";
 
@@ -19,9 +21,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 import FormError from "@/components/shared/Form/FormError";
-import { Textarea } from "@/components/ui/textarea";
 
 const productSchema = object({
   name: string().required("Product Name is Required"),
@@ -60,8 +62,12 @@ const AdminAddInventoryModule = () => {
       try {
         const { data } = await APIKit.inventory.addInventory(formData);
 
+        toast.success("New inventory created successfully");
         router.push(`/admin/inventory/${data.inventory.slug}`);
       } catch (err) {
+        const message =
+          err.data?.message || "Something went wrong. Please try again.";
+        toast.success(message);
         console.log(err);
       }
     },
@@ -152,7 +158,16 @@ const AdminAddInventoryModule = () => {
           <FormError formik={formik} name="image" />
         </div>
 
-        <Button type="submit">Add Inventory</Button>
+        <Button disabled={formik.isSubmitting} type="submit">
+          {formik.isSubmitting ? (
+            <>
+              <Loader2 className="animate-spin" />
+              Please Wait
+            </>
+          ) : (
+            "Login"
+          )}
+        </Button>
       </form>
     </div>
   );
