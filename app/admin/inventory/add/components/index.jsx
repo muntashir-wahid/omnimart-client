@@ -165,7 +165,7 @@ const AdminAddInventoryModule = () => {
               Please Wait
             </>
           ) : (
-            "Login"
+            "Add New Inventory"
           )}
         </Button>
       </form>

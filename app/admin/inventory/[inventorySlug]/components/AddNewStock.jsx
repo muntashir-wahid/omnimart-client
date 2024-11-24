@@ -1,6 +1,8 @@
 import { useFormik } from "formik";
 import { useQuery } from "@tanstack/react-query";
 import { mixed, number, object, string } from "yup";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 import APIKit from "@/lib/apiKit";
 
@@ -17,7 +19,6 @@ import { Label } from "@/components/ui/label";
 
 import FormError from "@/components/shared/Form/FormError";
 import AttributeSelectionsList from "./AttributeSelectionsList";
-import { toast } from "sonner";
 
 const stockSchema = object({
   sku: string().required("sku is Required"),
@@ -97,7 +98,9 @@ const AddNewStock = ({
         formik.setFieldValue("sku", "");
         formik.setFieldValue("discount", 0);
         formik.setFieldValue("productAttributeList", {});
-        formik.setFieldValue("image", null);
+        formik.setFieldValue("image", {});
+
+        formik.setErrors({ errors: {} });
       }
     },
   });
@@ -179,7 +182,16 @@ const AddNewStock = ({
           </div>
 
           <DialogFooter>
-            <Button type="submit">Add</Button>
+            <Button disabled={formik.isSubmitting} type="submit">
+              {formik.isSubmitting ? (
+                <>
+                  <Loader2 className="animate-spin" />
+                  Please Wait
+                </>
+              ) : (
+                "Add"
+              )}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

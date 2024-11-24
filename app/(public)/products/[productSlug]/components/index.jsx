@@ -39,7 +39,7 @@ const ProductDetailsModule = ({ productSlug }) => {
       slug,
       name,
       about,
-      productItem: { uid, discount, price, sku, stock },
+      productItem: { uid, discount, price, sku, stock, ProductImages },
       category: { name: categoryName },
       attributes,
     },
@@ -60,7 +60,10 @@ const ProductDetailsModule = ({ productSlug }) => {
       <div className="flex flex-col md:flex-row md:items-start gap-8">
         <figure className="w-full md:w-1/2">
           <Image
-            src="https://images.unsplash.com/photo-1509695507497-903c140c43b0?q=80&w=700"
+            src={
+              ProductImages[0]?.image.fileUrl ||
+              "https://images.unsplash.com/photo-1509695507497-903c140c43b0?q=80&w=700"
+            }
             height={500}
             width={650}
             alt="Product Details Image"
